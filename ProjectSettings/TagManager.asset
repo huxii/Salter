@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - EmptyBlock
+  - WallBlock
+  - Water
+  - Obstacle
+  - ObstacleBlock
+  - WaterBlock
   layers:
   - Default
   - TransparentFX
@@ -14,7 +19,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Lock
   - 
   - 
   - 

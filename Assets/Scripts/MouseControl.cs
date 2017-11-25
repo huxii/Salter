@@ -7,9 +7,6 @@ public class MouseControl : MonoBehaviour
 	private Vector3 screenPoint;
 	private Vector3 offset;
 
-	void OnMouseDown()
-	{
-	}
 
 	void OnMouseDrag()
 	{
@@ -19,15 +16,12 @@ public class MouseControl : MonoBehaviour
 		{
 			if (hitInfo.collider.gameObject.tag == "EmptyBlock")
 			{
-				Debug.Log(true);
+				Debug.Log("Moving "+hitInfo.collider.gameObject.name);
 				transform.position = hitInfo.collider.gameObject.transform.position;
-			}
-			else
-			{
-				Debug.Log(false);
 			}
 		}		
 	}
+		
 
 	/*
 	void OnMouseDown()
@@ -48,24 +42,27 @@ public class MouseControl : MonoBehaviour
 	}
 	*/
 
-	/*
+
+
+
 	// Use this for initialization
-	void Start()
-	{
-		
-	}
-	
-	// Update is called once per frame
-	void Update()
-	{
+//	void Start()
+//	{
+//		Debug.Log (gridManager);	
+//	}
+//
+//
+//	// Update is called once per frame
+//	void Update()
+//	{
+//
+//	}
 
-	}
+//	void OnMouseDrag()
+//	{
+//		Vector3 mousePos = Input.mousePosition;
+//		Vector3 targetPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 5.0f));
+//		transform.position = targetPos;
+//	}
 
-	void OnMouseDrag()
-	{
-		Vector3 mousePos = Input.mousePosition;
-		Vector3 targetPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 5.0f));
-		transform.position = targetPos;
-	}
-	*/
 }

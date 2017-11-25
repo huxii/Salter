@@ -39,7 +39,7 @@ public class GridControl : MonoBehaviour
 		}
 	}
 
-	void UpdateGrid()
+	public void UpdateGrid()
 	{
 		if (models.Length <= 0)
 		{
