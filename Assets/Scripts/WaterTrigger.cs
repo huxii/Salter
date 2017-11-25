@@ -2,36 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterTrigger : MonoBehaviour {
-	private bool isTriggered;
-	public GameObject[] waters;
+public class WaterTrigger : MonoBehaviour
+{
+	public GameObject waterUnit;
+
 	// Use this for initialization
-	void Start () {
-		isTriggered = false;
+	void Start()
+	{
+		waterUnit = transform.parent.gameObject;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
 		
 	}
 
-	void OnTriggerEnter(Collider other){
-		foreach (GameObject water in waters) {
-			if (water == other.gameObject) {
-				return;
-			}
-		}
-		if (!isTriggered && other.gameObject.CompareTag ("Water")) {
-			isTriggered = true;
-			Debug.Log (other.gameObject.name + " reaches " + gameObject.name);
-			//run next water
-			foreach (GameObject water in waters) {
-				if (water != null) {
-					water.GetComponent<WaterBehavior> ().Run ();
-				}
-			}
-			//stop previous water
-			other.gameObject.GetComponent<WaterBehavior>().Stop();
+	void OnTriggerEnter(Collider other)
+	{
+		Debug.Log(other.gameObject.name);
+		if (waterUnit)
+		{
+			waterUnit.GetComponent<WaterControl>().WaterTriggerEnter(other);
 		}
 	}
+	/*
+	void OnTriggerStay(Collider other)
+	{
+		if (other.gameObject.CompareTag("Obstacle"))
+		{
+			if (gameObject.CompareTag("EmptyBlock") && other.gameObject.GetComponent<WaterBehavior>().isAwake)
+			{
+				gameObject.tag = "WaterBlock";
+			}
+		}
+	}
+	*/
 }

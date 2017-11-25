@@ -2,50 +2,76 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpenBlockBehavior : MonoBehaviour {
-	public bool isEmpty;
-	GameObject blockingWaterGO;
+public class OpenBlockBehavior : MonoBehaviour
+{
+	public List<GameObject> blockingWaterGO;
+
 	// Use this for initialization
-	void Start () {
+	void Start()
+	{
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (isEmpty && blockingWaterGO!=null) {
-			blockingWaterGO.GetComponent<WaterBehavior> ().Resume ();
-		}
+	void Update()
+	{
 	}
 
-	void OnTriggerEnter(Collider other){
-		if (other.gameObject.CompareTag ("Obstacle")) {
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.CompareTag("Obstacle"))
+		{
 			gameObject.tag = "ObstacleBlock";
-			isEmpty = false;
 		}
 
-		if (!isEmpty && other.gameObject.CompareTag ("Water")) {
-			if (other.gameObject.GetComponent<WaterBehavior> ().isAwake) {
-				Debug.Log (gameObject.name + " is blocking " + other.gameObject.name);
-				other.gameObject.GetComponent<WaterBehavior> ().Pause ();
+		/*
+		if (other.gameObject.CompareTag("Water"))
+		{
+			if (gameObject.CompareTag("ObstacleBlock") && other.gameObject.GetComponent<WaterBehavior>().isAwake)
+			{
+				Debug.Log(gameObject.name + " is blocking " + other.gameObject.name);
+				other.gameObject.GetComponent<WaterBehavior>().Pause();
 				blockingWaterGO = other.gameObject;
 			}
 		}
-
+		*/
 
 	}
 
-	void OnTriggerStay(Collider other){ //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Not working
-		if (isEmpty && other.gameObject.CompareTag ("Water")) {
-			if (other.gameObject.GetComponent<WaterBehavior> ().isAwake) {
+	void OnTriggerStay(Collider other)
+	{
+		if (other.gameObject.CompareTag("Water"))
+		{
+			if (gameObject.CompareTag("EmptyBlock") && other.gameObject.GetComponent<WaterBehavior>().isAwake)
+			{
 				gameObject.tag = "WaterBlock";
+			}
+		}
+
+		if (other.gameObject.CompareTag("Water"))
+		{
+			if (gameObject.CompareTag("ObstacleBlock") && other.gameObject.GetComponent<WaterBehavior>().isAwake)
+			{
+				Debug.Log(gameObject.name + " is blocking " + other.gameObject.name);
+				other.gameObject.GetComponent<WaterBehavior>().Pause();
+				blockingWaterGO.Add(other.gameObject);
 			}
 		}
 	}
 
-	void OnTriggerExit(Collider other){
-		if (other.gameObject.CompareTag ("Obstacle")) {
+	void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.CompareTag("Obstacle"))
+		{
 			gameObject.tag = "EmptyBlock";
-			isEmpty = true;
+
+			if (blockingWaterGO.Count > 0)
+			{
+				foreach (GameObject blockingWater in blockingWaterGO)
+				{
+					blockingWater.GetComponent<WaterBehavior>().Resume();
+				}
+			}
 		}
 
 	}
