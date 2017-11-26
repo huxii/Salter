@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\HolyShift\Scripts\CheckForStandardAssets.cs" />
      <Compile Include="Assets\Scripts\EdgeBehavior.cs" />
      <Compile Include="Assets\Scripts\GridControl.cs" />
      <Compile Include="Assets\Scripts\MouseControl.cs" />
@@ -58,7 +59,12 @@
      <Compile Include="Assets\Scripts\WaterBehavior.cs" />
      <Compile Include="Assets\Scripts\WaterControl.cs" />
      <Compile Include="Assets\Scripts\WaterTrigger.cs" />
+     <None Include="Assets\HolyShift\readme.txt" />
+     <None Include="Assets\Shaders\Waves.shader" />
+     <None Include="Assets\HolyShift\Shaders\WaterInclude.cginc" />
+     <None Include="Assets\Shaders\LowPolyWaves.shader" />
      <None Include="Assets\GameObjectReplacer\ReadMe.txt" />
+     <None Include="Assets\HolyShift\Shaders\FXWaterLowpoly.shader" />
  <Reference Include="Vuforia.UnityExtensions">
  <HintPath>D:/Unity/Editor/Data/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll</HintPath>
  </Reference>

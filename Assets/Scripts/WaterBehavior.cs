@@ -32,12 +32,12 @@ public class WaterBehavior : MonoBehaviour
 				gameObject.transform.localScale.y,
 				gameObject.transform.localScale.z);
 		}
-		
+
 	}
 
 	public void Run()
 	{
-		//gameObject.transform.localScale = new Vector3(0, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+		gameObject.transform.localScale = new Vector3(0.05f, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
 		render.enabled = true;
 		isFlowing = true;
 		isAwake = true;
