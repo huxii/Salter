@@ -17,7 +17,11 @@ public class MouseControl : MonoBehaviour
 			if (hitInfo.collider.gameObject.tag == "EmptyBlock")
 			{
 				Debug.Log("Moving "+hitInfo.collider.gameObject.name);
-				transform.position = hitInfo.collider.gameObject.transform.position;
+				transform.position = new Vector3(
+					hitInfo.collider.gameObject.transform.position.x,
+					transform.position.y,
+					hitInfo.collider.gameObject.transform.position.z
+				);
 			}
 		}		
 	}
