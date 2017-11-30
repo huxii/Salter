@@ -138,8 +138,8 @@ Material:
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
     - _SunDisk: 2
-    - _SunSize: 0.206
-    - _SunSizeConvergence: 2.62
+    - _SunSize: 0.152
+    - _SunSizeConvergence: 2.47
     - _TargetValue: 0
     - _TimeScale1: 30
     - _TimeScale2: 5
