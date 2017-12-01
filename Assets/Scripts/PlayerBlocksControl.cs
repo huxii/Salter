@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerBlocksControl : MonoBehaviour
 {
-	public List<GameObject> blocks;
+	private List<GameObject> blocks;
 
 	void Start()
 	{
-		blocks.Clear();
+		blocks = new List<GameObject>();
 		foreach (Transform child in transform)
 		{
 			if (child.gameObject.CompareTag("Obstacle"))
@@ -34,6 +34,7 @@ public class PlayerBlocksControl : MonoBehaviour
 
 			RaycastHit[] hits;
 			hits = Physics.RaycastAll(pos - transform.forward, transform.forward, 1.0f);
+
 			//Debug.Log(hits.Length + " " + pos);
 			foreach (RaycastHit hit in hits)
 			{
@@ -41,7 +42,7 @@ public class PlayerBlocksControl : MonoBehaviour
 				//Debug.Log(hitObj.name);
 				//hitObj.transform.position = new Vector3(hitObj.transform.position.x, 3.0f, hitObj.transform.position.z);
 
-				if (! (hitObj.tag == "EmptyBlock" || hitObj.tag == "Water" || hitObj.tag == "WaterTrigger" || hitObj.tag == "ObstacleBlock" ||
+				if (! (hitObj.tag == "EmptyBlock" || hitObj.tag == "Water" || hitObj.tag == "WaterTrigger" || hitObj.tag == "ObstacleBlock" || hitObj.tag == "Bridge" ||
 					(hitObj.tag == "Obstacle" && hitObj.transform.parent == block.transform.parent)) )
 				{
 					Debug.Log("Collide" + hitObj.name + " " + block.name + " " + hitObj.transform.parent.name + " " + block.transform.parent.name);
@@ -59,8 +60,8 @@ public class PlayerBlocksControl : MonoBehaviour
 		Vector3 newPos = transform.position;
 		if (Physics.Raycast(ray, out hitInfo))
 		{
-			if (hitInfo.collider.gameObject.tag == "EmptyBlock")
-			{
+			//if (hitInfo.collider.gameObject.tag == "EmptyBlock")
+			//{
 				//prePos = transform.position;
 
 				Vector3 tmpPos = hitInfo.collider.gameObject.transform.position - localPos;
@@ -90,7 +91,7 @@ public class PlayerBlocksControl : MonoBehaviour
 					Debug.Log("Moved");
 					transform.position = newPos;
 				}
-			}
+			//}
 		}
 
 

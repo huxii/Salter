@@ -11,6 +11,8 @@ TagManager:
   - ObstacleBlock
   - WaterBlock
   - WaterTrigger
+  - Edge
+  - Bridge
   layers:
   - Default
   - TransparentFX

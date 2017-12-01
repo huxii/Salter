@@ -5,9 +5,10 @@ using UnityEngine;
 public class WaterBehavior : MonoBehaviour
 {
 	public float speed;
-	public bool isFlowing;
-	public bool isInitial;
-	public bool isAwake;
+	public bool isFlowing = false;
+	public bool isInitial = false;
+	public bool isAwake = false;
+	public bool canCrossEdge = false;
 	Renderer render;
 
 	// Use this for initialization
@@ -62,6 +63,7 @@ public class WaterBehavior : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("WallBlock"))
 		{
+			//Debug.Log("wall " + other.gameObject.name + " " + gameObject.name);
 			Stop();
 		}
 	}

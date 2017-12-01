@@ -20,7 +20,7 @@ public class WaterTrigger : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		Debug.Log(other.gameObject.name + " triggered");
+		//Debug.Log(other.gameObject.name + " triggered");
 		if (waterUnit)
 		{
 			waterUnit.GetComponent<WaterControl>().WaterTriggerEnter(other);

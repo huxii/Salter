@@ -15,8 +15,12 @@ public class EdgeBehavior : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
-		if (other.gameObject.CompareTag ("Water")) {
-			other.gameObject.GetComponent<WaterBehavior> ().Stop ();
+		if (other.gameObject.CompareTag ("Water")) 
+		{
+			if (!other.gameObject.GetComponent<WaterBehavior>().canCrossEdge)
+			{
+				other.gameObject.GetComponent<WaterBehavior>().Stop();
+			}
 		}
 	}
 }

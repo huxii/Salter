@@ -4,19 +4,74 @@ using UnityEngine;
 
 public class WaterControl : MonoBehaviour
 {
+	public bool goForward = true;
+	public bool goBack = true;
+	public bool goLeft = true;
+	public bool goRight = true;
+
 	private bool isTriggered;
-	public List<GameObject> waters;
+	private List<GameObject> waters;
 
 	// Use this for initialization
 	void Start()
 	{
 		isTriggered = false;
-		waters.Clear();
+
+		waters = new List<GameObject>();
 		foreach (Transform child in transform)
 		{
 			if (child.gameObject.CompareTag("Water"))
 			{
-				waters.Add(child.gameObject);
+				float ry = child.gameObject.transform.localRotation.eulerAngles.y;
+				//Debug.Log(ry);
+				if (Mathf.Abs(ry - 0.0f) < 0.01f)
+				{
+					if (goForward)
+					{
+						waters.Add(child.gameObject);
+					}
+					else
+					{
+						child.gameObject.SetActive(false);
+					}
+				}
+				else
+				if (Mathf.Abs(ry - 270.0f) < 0.01f)
+				{
+					if (goLeft)
+					{
+						waters.Add(child.gameObject);
+					}
+					else
+					{
+						child.gameObject.SetActive(false);
+					}
+				}
+				else
+				if (Mathf.Abs(ry - 90.0f) < 0.01f)
+				{
+					if (goRight)
+					{
+						waters.Add(child.gameObject);
+					}
+					else
+					{
+						child.gameObject.SetActive(false);
+					}
+				}
+				else
+				if (Mathf.Abs(ry - 180.0f) < 0.01f)
+				{
+					if (goBack)
+					{
+						waters.Add(child.gameObject);
+					}
+					else
+					{
+						child.gameObject.SetActive(false);
+					}
+				}
+
 			}
 		}
 	}
@@ -52,6 +107,7 @@ public class WaterControl : MonoBehaviour
 					}
 				}				
 			}
+			Debug.Log("Stop other water " + other.gameObject.name);
 			//stop previous water
 			other.gameObject.GetComponent<WaterBehavior>().Stop();
 		}
