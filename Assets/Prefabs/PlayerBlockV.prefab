@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4059845910047862}
   - component: {fileID: 33269900290380532}
   - component: {fileID: 23135290371332026}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 23268916569950226}
   - component: {fileID: 65246523257713626}
   - component: {fileID: 114801682012283990}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerBlock1
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 23913771661277212}
   - component: {fileID: 65453249116166840}
   - component: {fileID: 114782826195296236}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerBlock0
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4781876699673898}
   - component: {fileID: 114568773043274102}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerBlockV
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4837420635813778}
   - component: {fileID: 33086392829805898}
   - component: {fileID: 23471705136275662}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}

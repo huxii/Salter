@@ -29,19 +29,28 @@ public class WaterControl : MonoBehaviour
 
 	public void WaterTriggerEnter(Collider other)
 	{
-		foreach (GameObject water in waters) {
-			if (water == other.gameObject) {
+		foreach (GameObject water in waters)
+		{
+			if (water == other.gameObject)
+			{
 				return;
 			}
 		}
-		if (!isTriggered && other.gameObject.CompareTag ("Water")) {
-			isTriggered = true;
-			Debug.Log (other.gameObject.name + " reaches " + gameObject.name);
-			//run next water
-			foreach (GameObject water in waters) {
-				if (water != null) {
-					water.GetComponent<WaterBehavior> ().Run ();
-				}
+
+		if (other.gameObject.CompareTag("Water"))
+		{
+			if (!isTriggered)
+			{
+				isTriggered = true;
+				Debug.Log(other.gameObject.name + " reaches " + gameObject.name);
+				//run next water
+				foreach (GameObject water in waters)
+				{
+					if (water != null)
+					{
+						water.GetComponent<WaterBehavior>().Run();
+					}
+				}				
 			}
 			//stop previous water
 			other.gameObject.GetComponent<WaterBehavior>().Stop();
