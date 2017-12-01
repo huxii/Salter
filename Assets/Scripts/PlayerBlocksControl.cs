@@ -42,7 +42,8 @@ public class PlayerBlocksControl : MonoBehaviour
 				//Debug.Log(hitObj.name);
 				//hitObj.transform.position = new Vector3(hitObj.transform.position.x, 3.0f, hitObj.transform.position.z);
 
-				if (! (hitObj.tag == "EmptyBlock" || hitObj.tag == "Water" || hitObj.tag == "WaterTrigger" || hitObj.tag == "ObstacleBlock" || hitObj.tag == "Bridge" ||
+				if (! (hitObj.tag == "EmptyBlock" || hitObj.tag == "Water" || hitObj.tag == "WaterTrigger" || hitObj.tag == "ObstacleBlock" || 
+					hitObj.tag == "Bridge" || hitObj.tag == "Sound" ||
 					(hitObj.tag == "Obstacle" && hitObj.transform.parent == block.transform.parent)) )
 				{
 					Debug.Log("Collide" + hitObj.name + " " + block.name + " " + hitObj.transform.parent.name + " " + block.transform.parent.name);

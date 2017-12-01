@@ -13,6 +13,7 @@ TagManager:
   - WaterTrigger
   - Edge
   - Bridge
+  - Sound
   layers:
   - Default
   - TransparentFX
