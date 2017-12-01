@@ -52,7 +52,7 @@ public class OpenBlockBehavior : MonoBehaviour
 		{
 			if (gameObject.CompareTag("ObstacleBlock") && other.gameObject.GetComponent<WaterBehavior>().isAwake)
 			{
-				Debug.Log(gameObject.name + " is blocking " + other.gameObject.name);
+				//Debug.Log(gameObject.name + " is blocking " + other.gameObject.name);
 				other.gameObject.GetComponent<WaterBehavior>().Pause();
 				blockingWaterGO.Add(other.gameObject);
 			}

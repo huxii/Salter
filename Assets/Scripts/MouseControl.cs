@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class MouseControl : MonoBehaviour
 {
+	public List<GameObject> blocks;
 	private Vector3 screenPoint;
 	private Vector3 offset;
 
+	//void 
 
 	void OnMouseDrag()
 	{
