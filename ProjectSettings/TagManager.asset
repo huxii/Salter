@@ -15,6 +15,7 @@ TagManager:
   - Bridge
   - Sound
   - Flower
+  - Dirt
   layers:
   - Default
   - TransparentFX
