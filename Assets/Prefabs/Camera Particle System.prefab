@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198958952127236670}
   - component: {fileID: 199371291578074884}
   m_Layer: 0
-  m_Name: CameraParticle
+  m_Name: Camera Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
