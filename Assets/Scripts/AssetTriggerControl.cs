@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AssetTriggerControl : MonoBehaviour
 {
+	public bool isActive = true;
 	public bool randomSpeed = false;
 
 	Animator animator;
@@ -32,14 +33,17 @@ public class AssetTriggerControl : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Water"))
+		if (isActive)
 		{
-			if (other.gameObject.GetComponent<WaterBehavior>() && other.gameObject.GetComponent<WaterBehavior>().isAwake)
+			if (other.CompareTag("Water"))
 			{
-				if (!watered)
+				if (other.gameObject.GetComponent<WaterBehavior>() && other.gameObject.GetComponent<WaterBehavior>().isAwake)
 				{
-					watered = true;
-					animator.SetBool("Watered", watered);
+					if (!watered)
+					{
+						watered = true;
+						animator.SetBool("Watered", watered);
+					}
 				}
 			}
 		}
