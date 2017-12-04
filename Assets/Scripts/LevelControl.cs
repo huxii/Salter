@@ -6,7 +6,6 @@ using DG.Tweening;
 
 public class LevelControl : SceneLoader
 {
-	public SpriteRenderer blank;
 	public Transform mainCam;
 	public Transform levelStartCam;
 	public Transform levelEndCam;
@@ -14,7 +13,7 @@ public class LevelControl : SceneLoader
 	// Use this for initialization
 	void Start()
 	{
-		StartLevel(blank);
+		StartLevel();
 		TweenCamera(mainCam, levelStartCam);
 	}
 	
@@ -27,16 +26,16 @@ public class LevelControl : SceneLoader
 	public void LevelComplete()
 	{
 		Debug.Log("Level complete");
-		LevelComplete(mainCam, levelEndCam, blank, SceneManager.GetActiveScene().buildIndex, 3f, 3f);
+		LevelComplete(mainCam, levelEndCam, SceneManager.GetActiveScene().buildIndex, 3f, 3f);
 	}
 
 	public void RestartLevel()
 	{
-		LoadLevel(blank, SceneManager.GetActiveScene().buildIndex, 0, 1f);
+		LoadLevel(SceneManager.GetActiveScene().buildIndex, 0, 1f);
 	}
 
 	public void BackToTitle()
 	{
-		LoadLevel(blank, 0, 0, 1f);
+		LoadLevel(0, 0, 1f);
 	}
 }

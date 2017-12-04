@@ -6,11 +6,14 @@ public class BridgeControl : MonoBehaviour
 {
 	public float fallingSpeed = 0.1f;
 
+	AudioSource audio;
 	bool isTriggered;
 
 	// Use this for initialization
 	void Start()
 	{
+		audio = GetComponent<AudioSource>();
+
 		isTriggered = false;
 		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0.0f);
 	}
@@ -37,6 +40,10 @@ public class BridgeControl : MonoBehaviour
 			if (other.gameObject.CompareTag("Obstacle"))
 			{
 				isTriggered = true;
+				if (audio)
+				{
+					audio.Play();
+				}
 			}
 		}
 	}

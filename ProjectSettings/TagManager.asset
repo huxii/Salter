@@ -17,6 +17,7 @@ TagManager:
   - Flower
   - Dirt
   - Goal
+  - Blank
   layers:
   - Default
   - TransparentFX

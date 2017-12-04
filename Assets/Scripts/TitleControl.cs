@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class TitleControl : SceneLoader
 {
-	public SpriteRenderer blank;
 	public Transform mainCam;
 	public Transform tweenCam;
 
 	// Use this for initialization
 	void Start()
 	{
-		StartLevel(blank);
+		StartLevel();
 	}
 
 	// Update is called once per frame
@@ -23,11 +22,11 @@ public class TitleControl : SceneLoader
 	public void LoadLevel(int level)
 	{
 		TweenCamera(mainCam, tweenCam);
-		LoadLevel(blank, level);
+		LoadLevel(level);
 	}
 
 	public void ExitGame()
 	{
-		ExitGame();
+		Exit();
 	}
 }
