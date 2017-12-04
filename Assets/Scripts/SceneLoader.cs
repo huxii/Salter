@@ -62,7 +62,7 @@ public class SceneLoader : MonoBehaviour
 	public void TweenCamera(Transform mainCam, Transform tweenCam, float totalDuration = 3.0f)
 	{
 		mainCam.DOMove(tweenCam.position, totalDuration).SetEase(Ease.InOutCubic);
-		mainCam.DORotate(tweenCam.rotation.eulerAngles, totalDuration).SetEase(Ease.InOutCubic);		
+		mainCam.DORotateQuaternion(tweenCam.rotation, totalDuration).SetEase(Ease.InOutCubic);		
 	}
 		
 	public void Exit()

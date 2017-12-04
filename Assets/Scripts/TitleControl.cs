@@ -19,7 +19,7 @@ public class TitleControl : SceneLoader
 
 	}
 
-	public void LoadLevel(int level)
+	public void Load(int level)
 	{
 		TweenCamera(mainCam, tweenCam);
 		LoadLevel(level);

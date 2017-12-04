@@ -3003,7 +3003,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1691071545}
-        m_MethodName: LoadLevel
+        m_MethodName: Load
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3893,7 +3893,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1691071545}
-        m_MethodName: LoadLevel
+        m_MethodName: Load
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4995,7 +4995,7 @@ GameObject:
   - component: {fileID: 1507809761}
   m_Layer: 0
   m_Name: Level Load Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5008,8 +5008,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1507809759}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 9.875853, y: -54.400105, z: 1}
-  m_LocalScale: {x: 0.60000026, y: 0.6, z: 0.60000026}
+  m_LocalPosition: {x: 9.875853, y: -50.6, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
