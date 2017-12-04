@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerBlocksControl : MonoBehaviour
 {
 	private List<GameObject> blocks;
+	bool movable;
 
 	void Start()
 	{
+		movable = true;
 		blocks = new List<GameObject>();
 		foreach (Transform child in transform)
 		{
@@ -25,7 +28,7 @@ public class PlayerBlocksControl : MonoBehaviour
 		}
 	
 	}
-		
+
 	bool CollisionTest(Vector3 newPos)
 	{		
 		foreach (GameObject block in blocks)
@@ -42,9 +45,9 @@ public class PlayerBlocksControl : MonoBehaviour
 				//Debug.Log(hitObj.name);
 				//hitObj.transform.position = new Vector3(hitObj.transform.position.x, 3.0f, hitObj.transform.position.z);
 
-				if (! (hitObj.tag == "EmptyBlock" || hitObj.tag == "Water" || hitObj.tag == "WaterTrigger" || hitObj.tag == "ObstacleBlock" || 
-					hitObj.tag == "Bridge" || hitObj.tag == "Sound" ||
-					(hitObj.tag == "Obstacle" && hitObj.transform.parent == block.transform.parent)) )
+				if (!(hitObj.tag == "EmptyBlock" || hitObj.tag == "Water" || hitObj.tag == "WaterTrigger" || hitObj.tag == "ObstacleBlock" ||
+				    hitObj.tag == "Bridge" || hitObj.tag == "Sound" ||
+				    (hitObj.tag == "Obstacle" && hitObj.transform.parent == block.transform.parent)))
 				{
 					Debug.Log("Collide" + hitObj.name + " " + block.name + " " + hitObj.transform.parent.name + " " + block.transform.parent.name);
 					return true;
@@ -56,6 +59,11 @@ public class PlayerBlocksControl : MonoBehaviour
 
 	public void Drag(Vector3 mousePos, Vector3 worldPos, Vector3 localPos)
 	{
+		if (!movable)
+		{
+			return;
+		}
+
 		RaycastHit hitInfo;
 		Ray ray = Camera.main.ScreenPointToRay(mousePos);
 		Vector3 newPos = transform.position;
@@ -63,99 +71,47 @@ public class PlayerBlocksControl : MonoBehaviour
 		{
 			//if (hitInfo.collider.gameObject.tag == "EmptyBlock")
 			//{
-				//prePos = transform.position;
+			//prePos = transform.position;
 
-				Vector3 tmpPos = hitInfo.collider.gameObject.transform.position - localPos;
-				newPos = new Vector3(
-					tmpPos.x,
-					transform.position.y,
-					tmpPos.z
-				);	
+			Vector3 tmpPos = hitInfo.collider.gameObject.transform.position - localPos;
+			newPos = new Vector3(
+				tmpPos.x,
+				transform.position.y,
+				tmpPos.z
+			);	
 
 
-				Vector3 tmpDir = newPos - transform.position;
-				if (tmpDir.magnitude > 1.1f)
+			Vector3 tmpDir = newPos - transform.position;
+			if (tmpDir.magnitude > 1.1f)
+			{
+				if (Mathf.Abs(transform.position.x - newPos.x) < 0.01f || Mathf.Abs(transform.position.z - newPos.z) < 0.01f)
 				{
-					if (Mathf.Abs(transform.position.x - newPos.x) < 0.01f || Mathf.Abs(transform.position.z - newPos.z) < 0.01f)
-					{
-						tmpDir.Normalize();
-						newPos = transform.position + tmpDir;
-					}
-					else
-					{
-						return;
-					}
+					tmpDir.Normalize();
+					newPos = transform.position + tmpDir;
 				}
-
-				if (!CollisionTest(new Vector3(newPos.x, 0.0f, newPos.z)))
+				else
 				{
-					Debug.Log("Moved");
-					transform.position = newPos;
+					return;
 				}
+			}
+
+			if (!CollisionTest(new Vector3(newPos.x, 0.0f, newPos.z)))
+			{
+				Debug.Log("Moved");
+					
+				//transform.position = newPos;
+				transform.DOMove(newPos, 0.1f);
+
+				movable = false;
+				StartCoroutine(DelayToMove(0.1f));
+			}
 			//}
 		}
-
-
-		/*
-		Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.nearClipPlane));
-		Vector3 dir = worldMousePos - worldPos;
-		bool collided = false;
-
-		foreach (GameObject block in blocks)
-		{
-			Vector3 curWorldPos = block.transform.position;
-			Vector3 curWorldMousePos = curWorldPos + dir;
-			Vector3 curMousePos = Camera.main.WorldToScreenPoint(curWorldMousePos);
-
-			RaycastHit hitInfo;
-			Ray ray = Camera.main.ScreenPointToRay(curMousePos);
-			if (Physics.Raycast(ray, out hitInfo))
-			{
-				if (hitInfo.collider.gameObject.tag != "EmptyBlock")
-				{
-					Debug.Log(block.gameObject.name + " Colliding "+hitInfo.collider.gameObject.name);
-
-					collided = true;
-					break;
-				}
-			}
-		}
-
-		if (!collided)
-		{
-			RaycastHit hitInfo;
-			Ray ray = Camera.main.ScreenPointToRay(mousePos);
-			if (Physics.Raycast(ray, out hitInfo))
-			{
-				Vector3 tmpPos = hitInfo.collider.gameObject.transform.position + localPos;
-				transform.position = new Vector3(
-					tmpPos.x,
-					transform.position.y,
-					tmpPos.z
-				);	
-			}
-		}
-		*/
-		/*
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		if (Physics.Raycast(ray, out hitInfo))
-		{
-			if (hitInfo.collider.gameObject.tag == "EmptyBlock")
-			{
-				Debug.Log("Moving "+hitInfo.collider.gameObject.name);
-				transform.position = new Vector3(
-					hitInfo.collider.gameObject.transform.position.x,
-					transform.position.y,
-					hitInfo.collider.gameObject.transform.position.z
-				);
-			}
-		}
-		*/
 	}
-	/*
-	public void Resolve()
+
+	public IEnumerator DelayToMove(float delaySeconds)
 	{
-		transform.position = prePos;
+		yield return new WaitForSeconds(delaySeconds);
+		movable = true;
 	}
-	*/
 }

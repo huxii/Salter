@@ -18,6 +18,7 @@ TagManager:
   - Dirt
   - Goal
   - Blank
+  - ExitButton
   layers:
   - Default
   - TransparentFX

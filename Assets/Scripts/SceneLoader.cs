@@ -9,6 +9,9 @@ public class SceneLoader : MonoBehaviour
 	void FadeIn(float duration = 1.0f)
 	{
 		GameObject blank = GameObject.FindGameObjectWithTag("Blank");
+		Color tmpColor = blank.GetComponent<SpriteRenderer>().color;
+		tmpColor.a = 1.0f;
+		blank.GetComponent<SpriteRenderer>().color = tmpColor;
 		blank.GetComponent<SpriteRenderer>().DOFade(0f, duration);
 
 		GameObject [] audios = GameObject.FindGameObjectsWithTag("Sound");
@@ -26,6 +29,9 @@ public class SceneLoader : MonoBehaviour
 	void FadeOut(float duration = 1.0f)
 	{
 		GameObject blank = GameObject.FindGameObjectWithTag("Blank");
+		Color tmpColor = blank.GetComponent<SpriteRenderer>().color;
+		tmpColor.a = 0.0f;
+		blank.GetComponent<SpriteRenderer>().color = tmpColor;
 		blank.GetComponent<SpriteRenderer>().DOFade(1f, duration);
 
 		GameObject [] audios = GameObject.FindGameObjectsWithTag("Sound");

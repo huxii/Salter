@@ -11,6 +11,12 @@ public class TitleControl : SceneLoader
 	void Start()
 	{
 		StartLevel();
+
+		if (Application.platform == RuntimePlatform.WebGLPlayer)
+		{
+			GameObject exitBtn = GameObject.FindGameObjectWithTag("ExitButton");
+			exitBtn.SetActive(false);
+		}
 	}
 
 	// Update is called once per frame
