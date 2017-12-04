@@ -8,17 +8,14 @@ public class LevelControl : SceneLoader
 {
 	public SpriteRenderer blank;
 	public Transform mainCam;
-	public Transform tweenCam;
-
-	GameObject [] audios;
+	public Transform levelStartCam;
+	public Transform levelEndCam;
 
 	// Use this for initialization
 	void Start()
 	{
 		StartLevel(blank);
-		TweenCamera(mainCam, tweenCam);
-
-		audios = GameObject.FindGameObjectsWithTag("Sound");
+		TweenCamera(mainCam, levelStartCam);
 	}
 	
 	// Update is called once per frame
@@ -27,21 +24,19 @@ public class LevelControl : SceneLoader
 		
 	}
 
+	public void LevelComplete()
+	{
+		Debug.Log("Level complete");
+		LevelComplete(mainCam, levelEndCam, blank, SceneManager.GetActiveScene().buildIndex, 3f, 3f);
+	}
+
 	public void RestartLevel()
 	{
 		LoadLevel(blank, SceneManager.GetActiveScene().buildIndex, 0, 1f);
-		for (int i = 0; i < audios.Length; ++i)
-		{
-			audios[i].GetComponent<AudioSource>().DOFade(0f, 1f);
-		}
 	}
 
 	public void BackToTitle()
 	{
 		LoadLevel(blank, 0, 0, 1f);
-		for (int i = 0; i < audios.Length; ++i)
-		{
-			audios[i].GetComponent<AudioSource>().DOFade(0f, 1f);
-		}
 	}
 }

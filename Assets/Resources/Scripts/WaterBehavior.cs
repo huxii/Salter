@@ -66,5 +66,15 @@ public class WaterBehavior : MonoBehaviour
 			//Debug.Log("wall " + other.gameObject.name + " " + gameObject.name);
 			Stop();
 		}
+
+		if (other.gameObject.CompareTag("Goal"))
+		{
+			GameObject.Find("Level Manager").SendMessage("LevelComplete");
+		}
+	}
+
+	void OnTriggerStay(Collider other)
+	{
+		
 	}
 }
