@@ -9,6 +9,7 @@ public class LevelControl : SceneLoader
 	public Transform mainCam;
 	public Transform levelStartCam;
 	public Transform levelEndCam;
+	public GameObject endGlow;
 
 	bool levelComplete;
 	bool levelCompleted;
@@ -43,6 +44,7 @@ public class LevelControl : SceneLoader
 			if (canComplete)
 			{
 				levelCompleted = true;
+				endGlow.GetComponent<EndGlowBehavior>().Glow();
 				LevelComplete(mainCam, levelEndCam, SceneManager.GetActiveScene().buildIndex, 3f, 3f);		
 			}
 		}
@@ -58,7 +60,20 @@ public class LevelControl : SceneLoader
 	public void LevelFail()
 	{
 		Debug.Log("Level fail");
-		RestartLevel();
+
+		/*
+		GameObject[] waters = GameObject.FindGameObjectsWithTag("Water");
+		for (int i = 0; i < waters.Length; ++i)
+		{
+			GameObject water = waters[i];
+			if (water.GetComponent<WaterBehavior>())
+			{
+				water.GetComponent<WaterBehavior>().Stop();
+			}
+		}
+		*/
+
+		StartCoroutine(DelayToRestart(2f));
 	}
 
 	public void RestartLevel()
@@ -69,5 +84,11 @@ public class LevelControl : SceneLoader
 	public void BackToTitle()
 	{
 		LoadLevel(0, 0, 1f);
+	}
+
+	public IEnumerator DelayToRestart(float delaySeconds)
+	{
+		yield return new WaitForSeconds(delaySeconds);
+		RestartLevel();
 	}
 }
