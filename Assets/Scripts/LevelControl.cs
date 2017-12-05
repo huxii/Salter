@@ -29,6 +29,11 @@ public class LevelControl : SceneLoader
 		LevelComplete(mainCam, levelEndCam, SceneManager.GetActiveScene().buildIndex, 3f, 3f);
 	}
 
+	public void LevelFail()
+	{
+		Debug.Log("Level fail");
+	}
+
 	public void RestartLevel()
 	{
 		LoadLevel(SceneManager.GetActiveScene().buildIndex, 0, 1f);

@@ -29,7 +29,6 @@ public class AssetTriggerControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		//if (watered != shouldBeTriggered)
 	}
 
 	void OnTriggerEnter(Collider other)
@@ -44,6 +43,11 @@ public class AssetTriggerControl : MonoBehaviour
 					{
 						watered = true;
 						animator.SetBool("Watered", watered);
+
+						if (!shouldBeTriggered)
+						{
+							GameObject.Find("Level Manager").SendMessage("LevelFail");
+						}
 					}
 				}
 			}
