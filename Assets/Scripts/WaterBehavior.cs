@@ -37,7 +37,7 @@ public class WaterBehavior : MonoBehaviour
 
 			if (gameObject.transform.localScale.x >= 300.0f)
 			{
-				Stop();
+				Pause();
 			}
 		}
 
