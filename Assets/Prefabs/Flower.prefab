@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 114091129465377468}
   m_Layer: 0
   m_Name: Flower
-  m_TagString: Flower
+  m_TagString: AssetTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1488,7 +1488,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4f569f7cf42c8a4ab4d1cfe0843a65b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 1
   randomSpeed: 1
+  shouldBeTriggered: 1
 --- !u!135 &135062866197285912
 SphereCollider:
   m_ObjectHideFlags: 1

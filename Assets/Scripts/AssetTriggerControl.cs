@@ -6,6 +6,7 @@ public class AssetTriggerControl : MonoBehaviour
 {
 	public bool isActive = true;
 	public bool randomSpeed = false;
+	public bool shouldBeTriggered = true;
 
 	Animator animator;
 	bool watered;
@@ -28,7 +29,7 @@ public class AssetTriggerControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
+		if (watered != shouldBeTriggered)
 	}
 
 	void OnTriggerEnter(Collider other)

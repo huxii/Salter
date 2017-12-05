@@ -19,6 +19,7 @@ TagManager:
   - Goal
   - Blank
   - ExitButton
+  - AssetTrigger
   layers:
   - Default
   - TransparentFX
