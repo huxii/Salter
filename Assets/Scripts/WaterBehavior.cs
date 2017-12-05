@@ -9,6 +9,8 @@ public class WaterBehavior : MonoBehaviour
 	public bool isInitial = false;
 	public bool isAwake = false;
 	public bool canCrossEdge = false;
+	public bool canBeStoppedByWater = true;
+
 	Renderer render;
 
 	// Use this for initialization
@@ -32,6 +34,11 @@ public class WaterBehavior : MonoBehaviour
 			gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x + speed * Time.deltaTime * 50,
 				gameObject.transform.localScale.y,
 				gameObject.transform.localScale.z);
+
+			if (gameObject.transform.localScale.x >= 300.0f)
+			{
+				Stop();
+			}
 		}
 
 	}

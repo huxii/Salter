@@ -258,3 +258,4 @@ MonoBehaviour:
   isInitial: 1
   isAwake: 0
   canCrossEdge: 0
+  canBeStoppedByWater: 0

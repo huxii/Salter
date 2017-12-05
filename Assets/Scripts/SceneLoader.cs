@@ -21,7 +21,7 @@ public class SceneLoader : MonoBehaviour
 			if (audio && audio.playOnAwake)
 			{
 				audio.volume = 0f;
-				audio.DOFade(1f, 1f);
+				audio.DOFade(1f, duration);
 			}
 		}
 	}

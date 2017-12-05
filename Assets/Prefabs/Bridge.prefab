@@ -1239,6 +1239,7 @@ MonoBehaviour:
   isInitial: 0
   isAwake: 0
   canCrossEdge: 1
+  canBeStoppedByWater: 1
 --- !u!114 &114161422677748844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1316,6 +1317,7 @@ MonoBehaviour:
   isInitial: 0
   isAwake: 0
   canCrossEdge: 1
+  canBeStoppedByWater: 1
 --- !u!114 &114539939247334894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1332,6 +1334,7 @@ MonoBehaviour:
   isInitial: 0
   isAwake: 0
   canCrossEdge: 1
+  canBeStoppedByWater: 1
 --- !u!114 &114659548637521088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1386,3 +1389,4 @@ MonoBehaviour:
   isInitial: 0
   isAwake: 0
   canCrossEdge: 1
+  canBeStoppedByWater: 1

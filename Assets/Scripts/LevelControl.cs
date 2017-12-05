@@ -45,6 +45,7 @@ public class LevelControl : SceneLoader
 			{
 				levelCompleted = true;
 				endGlow.GetComponent<EndGlowBehavior>().Glow();
+				GameObject.FindGameObjectWithTag("ClearMusic").GetComponent<AudioSource>().Play();
 				LevelComplete(mainCam, levelEndCam, SceneManager.GetActiveScene().buildIndex, 3f, 3f);		
 			}
 		}
@@ -72,7 +73,7 @@ public class LevelControl : SceneLoader
 			}
 		}
 		*/
-
+		GameObject.FindGameObjectWithTag("FailMusic").GetComponent<AudioSource>().Play();
 		StartCoroutine(DelayToRestart(2f));
 	}
 

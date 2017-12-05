@@ -20,6 +20,8 @@ TagManager:
   - Blank
   - ExitButton
   - AssetTrigger
+  - ClearMusic
+  - FailMusic
   layers:
   - Default
   - TransparentFX

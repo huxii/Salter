@@ -110,7 +110,10 @@ public class WaterControl : MonoBehaviour
 			}
 			//Debug.Log("Stop other water " + other.gameObject.name);
 			//stop previous water
-			other.gameObject.GetComponent<WaterBehavior>().Stop();
+			if (other.gameObject.GetComponent<WaterBehavior>().canBeStoppedByWater)
+			{
+				other.gameObject.GetComponent<WaterBehavior>().Stop();
+			}
 		}
 	}
 	/*

@@ -6,7 +6,9 @@ using DG.Tweening;
 public class PlayerBlocksControl : MonoBehaviour
 {
 	private List<GameObject> blocks;
+
 	bool movable;
+	public AudioSource audio;
 
 	void Start()
 	{
@@ -20,13 +22,16 @@ public class PlayerBlocksControl : MonoBehaviour
 			}
 		}
 
+		/*
 		RaycastHit[] hits;
 		hits = Physics.RaycastAll(new Vector3(-0.5f, 0.0f, 0.0f) - transform.forward, transform.forward, 1.0f);
 		foreach (RaycastHit hit in hits)
 		{
 			Debug.Log(hit.collider.gameObject.name);
 		}
-	
+		*/
+
+		audio = GetComponent<AudioSource>();
 	}
 
 	bool CollisionTest(Vector3 newPos)
@@ -56,7 +61,7 @@ public class PlayerBlocksControl : MonoBehaviour
 		}
 		return false;
 	}
-
+		
 	public void Drag(Vector3 mousePos, Vector3 worldPos, Vector3 localPos)
 	{
 		if (!movable)
@@ -93,12 +98,18 @@ public class PlayerBlocksControl : MonoBehaviour
 					return;
 				}
 			}
+			else
+			if (tmpDir.magnitude < 0.1f)
+			{
+				return;
+			}
 
 			if (!CollisionTest(new Vector3(newPos.x, 0.0f, newPos.z)))
 			{
 				Debug.Log("Moved");
 					
 				//transform.position = newPos;
+				audio.Play();
 				transform.DOMove(newPos, 0.1f);
 
 				movable = false;

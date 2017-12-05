@@ -9,6 +9,10 @@ public class PlayerSingleBlockBehavior : MonoBehaviour
 		transform.parent.gameObject.GetComponent<PlayerBlocksControl>().Drag(Input.mousePosition, transform.position, transform.localPosition);
 	}
 
+	void OnMouseDown()
+	{
+		GetComponent<AudioSource>().Play();
+	}
 	/*
 	void OnTriggerEnter(Collider other)
 	{
