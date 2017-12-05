@@ -92,12 +92,13 @@ public class WaterControl : MonoBehaviour
 			}
 		}
 
-		if (other.gameObject.CompareTag("Water"))
+		if (other.gameObject.CompareTag("Water") && other.gameObject.GetComponent<WaterBehavior>() && 
+			other.gameObject.GetComponent<WaterBehavior>().isAwake && other.gameObject.GetComponent<WaterBehavior>().isFlowing)
 		{
 			if (!isTriggered)
 			{
 				isTriggered = true;
-				Debug.Log(other.gameObject.name + " reaches " + gameObject.name);
+				//Debug.Log(other.gameObject.name + " reaches " + gameObject.name);
 				//run next water
 				foreach (GameObject water in waters)
 				{
@@ -107,7 +108,7 @@ public class WaterControl : MonoBehaviour
 					}
 				}				
 			}
-			Debug.Log("Stop other water " + other.gameObject.name);
+			//Debug.Log("Stop other water " + other.gameObject.name);
 			//stop previous water
 			other.gameObject.GetComponent<WaterBehavior>().Stop();
 		}

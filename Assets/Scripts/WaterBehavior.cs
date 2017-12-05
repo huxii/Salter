@@ -75,6 +75,18 @@ public class WaterBehavior : MonoBehaviour
 
 	void OnTriggerStay(Collider other)
 	{
-		
+		if (other.gameObject.CompareTag("ObstacleBlock") || other.gameObject.CompareTag("Obstacle"))
+		{
+			//Debug.Log("wall " + other.gameObject.name + " " + gameObject.name);
+			Pause();
+		}
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.CompareTag("ObstacleBlock") || other.gameObject.CompareTag("Obstacle"))
+		{
+			Resume();
+		}
 	}
 }

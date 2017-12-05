@@ -79,8 +79,7 @@ public class PlayerBlocksControl : MonoBehaviour
 				transform.position.y,
 				tmpPos.z
 			);	
-
-
+				
 			Vector3 tmpDir = newPos - transform.position;
 			if (tmpDir.magnitude > 1.1f)
 			{

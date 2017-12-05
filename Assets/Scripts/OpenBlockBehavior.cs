@@ -42,19 +42,19 @@ public class OpenBlockBehavior : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Water"))
 		{
-			if (gameObject.CompareTag("EmptyBlock") && other.gameObject.GetComponent<WaterBehavior>().isAwake)
+			if (other.gameObject.GetComponent<WaterBehavior>().isAwake)
 			{
-				gameObject.tag = "WaterBlock";
-			}
-		}
-
-		if (other.gameObject.CompareTag("Water"))
-		{
-			if (gameObject.CompareTag("ObstacleBlock") && other.gameObject.GetComponent<WaterBehavior>().isAwake)
-			{
-				//Debug.Log(gameObject.name + " is blocking " + other.gameObject.name);
-				other.gameObject.GetComponent<WaterBehavior>().Pause();
-				blockingWaterGO.Add(other.gameObject);
+				if (gameObject.CompareTag("ObstacleBlock"))
+				{
+					//Debug.Log(gameObject.name + " is blocking " + other.gameObject.name);
+					other.gameObject.GetComponent<WaterBehavior>().Pause();
+					blockingWaterGO.Add(other.gameObject);
+				}
+				else
+				if (gameObject.CompareTag("EmptyBlock"))
+				{
+					gameObject.tag = "WaterBlock";
+				}
 			}
 		}
 	}

@@ -7,9 +7,9 @@ public class AssetTriggerControl : MonoBehaviour
 	public bool isActive = true;
 	public bool randomSpeed = false;
 	public bool shouldBeTriggered = true;
+	public bool watered;
 
 	Animator animator;
-	bool watered;
 	float speed;
 
 	// Use this for initialization
