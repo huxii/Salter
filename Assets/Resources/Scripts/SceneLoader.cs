@@ -6,36 +6,49 @@ using DG.Tweening;
 
 public class SceneLoader : MonoBehaviour
 {
-	void FadeIn(SpriteRenderer blank, float duration = 1.0f)
+	void FadeIn(float duration = 1.0f)
 	{
-		blank.DOFade(0f, duration);
-	}
+		GameObject blank = GameObject.FindGameObjectWithTag("Blank");
+		Color tmpColor = blank.GetComponent<SpriteRenderer>().color;
+		tmpColor.a = 1.0f;
+		blank.GetComponent<SpriteRenderer>().color = tmpColor;
+		blank.GetComponent<SpriteRenderer>().DOFade(0f, duration);
 
-	void FadeOut(SpriteRenderer blank, float duration = 1.0f)
-	{
-		blank.DOFade(1f, duration);
-	}
-
-	public void LoadLevel(SpriteRenderer blank, int level, float delayDuration = 2.0f, float fadeDuration = 1.0f)
-	{ 
 		GameObject [] audios = GameObject.FindGameObjectsWithTag("Sound");
 		for (int i = 0; i < audios.Length; ++i)
 		{
-			audios[i].GetComponent<AudioSource>().DOFade(0f, 3f);
+			AudioSource audio = audios[i].GetComponent<AudioSource>();
+			if (audio && audio.playOnAwake)
+			{
+				audio.volume = 0f;
+				audio.DOFade(1f, 1f);
+			}
 		}
+	}
 
+	void FadeOut(float duration = 1.0f)
+	{
+		GameObject blank = GameObject.FindGameObjectWithTag("Blank");
+		Color tmpColor = blank.GetComponent<SpriteRenderer>().color;
+		tmpColor.a = 0.0f;
+		blank.GetComponent<SpriteRenderer>().color = tmpColor;
+		blank.GetComponent<SpriteRenderer>().DOFade(1f, duration);
+
+		GameObject [] audios = GameObject.FindGameObjectsWithTag("Sound");
+		for (int i = 0; i < audios.Length; ++i)
+		{
+			audios[i].GetComponent<AudioSource>().DOFade(0f, duration);
+		}
+	}
+
+	public void LoadLevel(int level, float delayDuration = 2.0f, float fadeDuration = 1.0f)
+	{ 
 		StartCoroutine(DelayToLoadLevel(level, delayDuration + fadeDuration));
-		StartCoroutine(DelayToFade(blank, delayDuration, fadeDuration));
+		StartCoroutine(DelayToFade(delayDuration, fadeDuration));
 	}
 
-	public void LevelComplete(Transform mainCam, Transform tweenCam, SpriteRenderer blank, int level, float delayDuration = 2.0f, float fadeDuration = 1.0f)
+	public void LevelComplete(Transform mainCam, Transform tweenCam, int level, float delayDuration = 2.0f, float fadeDuration = 1.0f)
 	{ 
-		GameObject [] audios = GameObject.FindGameObjectsWithTag("Sound");
-		for (int i = 0; i < audios.Length; ++i)
-		{
-			audios[i].GetComponent<AudioSource>().DOFade(0f, delayDuration + fadeDuration);
-		}
-
 		++level;
 		if (level >= 3)
 		{
@@ -44,23 +57,24 @@ public class SceneLoader : MonoBehaviour
 		
 		StartCoroutine(DelayToLoadLevel(level, delayDuration + fadeDuration));
 		StartCoroutine(DelayToTween(mainCam, tweenCam, delayDuration - 1, fadeDuration));
-		StartCoroutine(DelayToFade(blank, delayDuration, fadeDuration));
+		StartCoroutine(DelayToFade(delayDuration, fadeDuration));
 	}
 
-	public void StartLevel(SpriteRenderer blank)
+	public void StartLevel(float duration = 3.0f)
 	{
-		FadeIn(blank, 3.0f);
+		FadeIn(duration);
 	}
 
 	public void TweenCamera(Transform mainCam, Transform tweenCam, float totalDuration = 3.0f)
 	{
 		mainCam.DOMove(tweenCam.position, totalDuration).SetEase(Ease.InOutCubic);
-		mainCam.DORotate(tweenCam.rotation.eulerAngles, totalDuration).SetEase(Ease.InOutCubic);		
+		mainCam.DORotateQuaternion(tweenCam.rotation, totalDuration).SetEase(Ease.InOutCubic);		
 	}
 		
-	public void ExitGame()
+	public void Exit()
 	{
-		Application.Quit();
+		FadeOut();
+		StartCoroutine(DelayToQuit(1f));
 	}
 
 	public IEnumerator DelayToLoadLevel(int level, float delaySeconds)
@@ -75,9 +89,15 @@ public class SceneLoader : MonoBehaviour
 		TweenCamera(mainCam, tweenCam, fadeDuration);
 	}
 
-	public IEnumerator DelayToFade(SpriteRenderer blank, float delaySeconds, float fadeDuration)
+	public IEnumerator DelayToFade(float delaySeconds, float fadeDuration)
 	{
 		yield return new WaitForSeconds(delaySeconds);
-		FadeOut(blank, fadeDuration);
+		FadeOut(fadeDuration);
+	}
+
+	public IEnumerator DelayToQuit(float delaySeconds)
+	{
+		yield return new WaitForSeconds(delaySeconds);
+		Application.Quit();
 	}
 }
