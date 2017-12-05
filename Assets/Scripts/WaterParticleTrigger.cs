@@ -12,7 +12,7 @@ public class WaterParticleTrigger : MonoBehaviour{
 
 	void OnTriggerEnter(Collider other){
 		if (other.gameObject.CompareTag("Water")){
-			if (gameObject.CompareTag("EmptyBlock") && other.gameObject.GetComponent<WaterBehavior>().isAwake){
+			if ((gameObject.CompareTag("EmptyBlock") || gameObject.CompareTag("BridgeWater")) && other.gameObject.GetComponent<WaterBehavior>().isAwake){
 				if (!isParticleTriggered) {
 					isParticleTriggered = true;
 					GameObject particle = (GameObject)Instantiate(waterPariticlePF);
