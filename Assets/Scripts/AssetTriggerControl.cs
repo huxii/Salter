@@ -29,7 +29,7 @@ public class AssetTriggerControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (watered != shouldBeTriggered)
+		//if (watered != shouldBeTriggered)
 	}
 
 	void OnTriggerEnter(Collider other)
