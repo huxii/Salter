@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.8455882, g: 0.310878, b: 0.72020787, a: 1}
+  m_AmbientSkyColor: {r: 0.9411765, g: 0.53287196, b: 0.8454361, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.9
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1907294856}
-  m_IndirectSpecularColor: {r: 0.3031991, g: 0.49715465, b: 0.61660093, a: 0.9}
+  m_IndirectSpecularColor: {r: 0.30319938, g: 0.49715465, b: 0.61660075, a: 0.9}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1700,6 +1700,10 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 222250117}
+    - target: {fileID: 4544148850494246, guid: 4aa523adc26f66b43b97beadd653e9c8, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4aa523adc26f66b43b97beadd653e9c8, type: 2}
   m_IsPrefabParent: 0
@@ -12683,12 +12687,12 @@ Prefab:
     - target: {fileID: 224427784028985112, guid: f4ae43c847dc74918adacf0a03fbd5cc,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 195.5
+      value: 604
       objectReference: {fileID: 0}
     - target: {fileID: 224427784028985112, guid: f4ae43c847dc74918adacf0a03fbd5cc,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 94
+      value: 381
       objectReference: {fileID: 0}
     - target: {fileID: 224427784028985112, guid: f4ae43c847dc74918adacf0a03fbd5cc,
         type: 2}
