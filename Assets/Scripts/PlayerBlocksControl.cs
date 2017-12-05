@@ -110,7 +110,7 @@ public class PlayerBlocksControl : MonoBehaviour
 					
 				//transform.position = newPos;
 				audio.Play();
-				transform.DOMove(newPos, 0.1f);
+				transform.DOMove(newPos, 0.1f).SetEase(Ease.InOutCubic);
 
 				movable = false;
 				StartCoroutine(DelayToMove(0.1f));

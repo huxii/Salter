@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BridgeControl : MonoBehaviour
 {
@@ -23,6 +24,11 @@ public class BridgeControl : MonoBehaviour
 	{
 		if (isTriggered)
 		{
+			/*
+			Vector3 r = transform.localEulerAngles;
+			transform.DORotate(new Vector3(r.x, r.y, 90f), 0.5f).SetEase(Ease.InOutCubic);
+			*/
+
 			float rz = transform.localEulerAngles.z;
 			if (rz < 90.0f)
 			{
