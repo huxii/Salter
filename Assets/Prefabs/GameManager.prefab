@@ -59,6 +59,10 @@ MonoBehaviour:
   gridLength: 11
   gridHeight: 1
   unitSize: 1
+  colliderMap: []
+  queue: 
+  path: []
+  before: 
 --- !u!114 &114962805997146392
 MonoBehaviour:
   m_ObjectHideFlags: 1

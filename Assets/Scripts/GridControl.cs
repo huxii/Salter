@@ -63,48 +63,130 @@ public class GridControl : MonoBehaviour
 			}
 		}
 	}
-	/*
-	public void UpdateGrid()
+
+	int CollisionTest(Vector3Int curGridIdx3, int blockWidth, int blockLength, int blockHeight)
 	{
-		if (models.Length <= 0)
-		{
-			return;
-		}
+		int result = 0;
 
-		int startX = -gridWidth / 2;
-		int endX = gridWidth - gridWidth / 2;
-		int startY = 0;
-		int endY = gridHeight;
-		int startZ = -gridLength / 2;
-		int endZ = gridLength - gridLength / 2;
+		Vector3Int nextGridIdx3;
+		bool collided = false;
 
-		for (int x = startX; x < endX; ++x)
+		// +x
+		for (int i = 0; i < blockLength; ++i)
 		{
-			float X = x * unitSize + unitSize / 2;
-			for (int y = startY; y < endY; ++y)
+			Vector3Int offset = new Vector3Int(blockWidth - 1, 0, i);
+			nextGridIdx3 = curGridIdx3 + offset + dir[0];
+			if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
+			    nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
 			{
-				float Y = y * unitSize + unitSize / 2;
-				for (int z = startZ; z < endZ; ++z)
+				int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
 				{
-					float Z = z * unitSize + unitSize / 2;
-					for (int i = 0; i < models.Length; ++i)
-					{
-						if (models[i].GetComponent<BoxCollider>().bounds.Contains(new Vector3(X, Y, Z)) == false)
-						{
-							colliderMap[x - startX, z - startZ, y - startY] = false;
-						}
-						else
-						{
-							Debug.Log("x: " + x + " y: " + y + " z: " + z + " X:" + X + " Y:" + Y + " Z:" + Z);
-						}
-					}
+					collided = true;
+					break;
 				}
 			}
+			else
+			{
+				collided = true;
+				break;
+			}
 		}
-	}
-	*/
 
-	public bool FindPath(int startGridIdx, int endGridIdx)
+		if (collided)
+		{
+			result |= (1 << 0);
+			collided = false;
+		}
+
+		// -x
+		for (int i = 0; i < blockLength; ++i)
+		{
+			Vector3Int offset = new Vector3Int(0, 0, i);
+			nextGridIdx3 = curGridIdx3 + offset + dir[1];
+			if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
+				nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
+			{
+				int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
+				{
+					collided = true;
+					break;
+				}
+			}
+			else
+			{
+				collided = true;
+				break;
+			}
+		}
+		if (collided)
+		{
+			result |= (1 << 1);
+			collided = false;
+		}
+
+		// +z
+		for (int i = 0; i < blockWidth; ++i)
+		{
+			Vector3Int offset = new Vector3Int(i, 0, blockLength - 1);
+			nextGridIdx3 = curGridIdx3 + offset + dir[2];
+			if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
+				nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
+			{
+				int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
+				{
+					collided = true;
+					break;
+				}
+			}
+			else
+			{
+				collided = true;
+				break;
+			}
+		}
+
+		if (collided)
+		{
+			result |= (1 << 2);
+			collided = false;
+		}
+			
+		// -z
+		for (int i = 0; i < blockWidth; ++i)
+		{
+			Vector3Int offset = new Vector3Int(i, 0, 0);
+			nextGridIdx3 = curGridIdx3 + offset + dir[3];
+			//Debug.Log(nextGridIdx3);
+			if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
+				nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
+			{
+				int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
+				{
+					collided = true;
+					break;
+				}
+			}
+			else
+			{
+				collided = true;
+				break;
+			}
+		}
+
+		if (collided)
+		{
+			result |= (1 << 3);
+			collided = false;
+		}
+
+		return result;
+	}
+
+	public bool FindPath(int startGridIdx, int endGridIdx, int blockWidth, int blockLength, int blockHeight)
 	{
 		int head = 0;
 		int tail = 0;
@@ -128,6 +210,28 @@ public class GridControl : MonoBehaviour
 				colliderMap[curGridIdx].GetComponent<GridBlockControl>().y,
 				colliderMap[curGridIdx].GetComponent<GridBlockControl>().z
 			);
+
+			int result = CollisionTest(curGridIdx3, blockWidth, blockLength, blockHeight);
+			Debug.Log(result);
+			for (int i = 0; i < dir.Count; ++i)
+			{
+				int collided = (result & (1 << i));
+				if (collided == 0)
+				{
+					Vector3Int nextGridIdx3 = curGridIdx3 + dir[i];
+					int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+					if (!visited[nextGridIdx])
+					{
+						before[nextGridIdx] = curGridIdx;
+						queue.Add(nextGridIdx);
+						++tail;
+						if (nextGridIdx == endGridIdx)
+						{
+							return true;
+						}
+					}
+				}
+			}
 			/*
 			Debug.Log(
 				curGridIdx + " " +
@@ -136,10 +240,11 @@ public class GridControl : MonoBehaviour
 				colliderMap[curGridIdx].GetComponent<GridBlockControl>().z
 			);
 			*/
+			/*
 			for (int i = 0; i < dir.Count; ++i)
 			{
 				Vector3Int nextGridIdx3 = curGridIdx3 + dir[i];
-				Debug.Log(curGridIdx3.x + " " + curGridIdx3.y + " " + curGridIdx3.z);
+				//Debug.Log(curGridIdx3.x + " " + curGridIdx3.y + " " + curGridIdx3.z);
 
 				if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
 					nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
@@ -158,21 +263,23 @@ public class GridControl : MonoBehaviour
 					}
 				}
 			}
+			*/
 		}	
 		return false;
 	}
 
 	public void MoveToGrid(GameObject block, Vector3Int startGridIdx3, Vector3Int endGridIdx3)
 	{
-		if (!movable)
+		int startGridIdx = CoordsToIdx(startGridIdx3.x, startGridIdx3.y, startGridIdx3.z);
+		int endGridIdx = CoordsToIdx(endGridIdx3.x, endGridIdx3.y, endGridIdx3.z);
+
+		if (!movable || startGridIdx == endGridIdx)
 		{
 			return;
 		}
 
-		int startGridIdx = CoordsToIdx(startGridIdx3.x, startGridIdx3.y, startGridIdx3.z);
-		int endGridIdx = CoordsToIdx(endGridIdx3.x, endGridIdx3.y, endGridIdx3.z);
-
-		if (FindPath(startGridIdx, endGridIdx))
+		if (FindPath(startGridIdx, endGridIdx, 
+			block.GetComponent<PlayerBlocksControl>().width, block.GetComponent<PlayerBlocksControl>().length, block.GetComponent<PlayerBlocksControl>().height))
 		{
 			path.Clear();
 			int gridIdx = endGridIdx;
@@ -181,7 +288,7 @@ public class GridControl : MonoBehaviour
 				path.Add(colliderMap[gridIdx].transform.position);
 				gridIdx = before[gridIdx];
 			}
-			//path.Add(colliderMap[startGridIdx].transform.position);
+			path.Add(colliderMap[startGridIdx].transform.position);
 
 			Vector3[] waypoints = new Vector3[path.Count];
 			int j = 0;
@@ -190,9 +297,10 @@ public class GridControl : MonoBehaviour
 				waypoints[j++] = path[i];
 			}
 
+
 			movable = false;
 			//block.transform.position = waypoints[path.Count - 1];
-			block.transform.DOPath(waypoints, path.Count * 0.2f).SetEase(Ease.InCubic).OnComplete(CanMove);
+			block.transform.DOPath(waypoints, (path.Count - 1) * 0.25f).SetEase(Ease.InOutCubic).OnComplete(CanMove);
 			//StartCoroutine(DelayToMove(path.Count * 0.12f));
 		}
 		else
@@ -233,6 +341,5 @@ public class GridControl : MonoBehaviour
 	public IEnumerator DelayToMove(float delaySeconds)
 	{
 		yield return new WaitForSeconds(delaySeconds);
-		movable = true;
 	}
 }

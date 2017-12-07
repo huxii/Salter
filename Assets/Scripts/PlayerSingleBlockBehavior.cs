@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class PlayerSingleBlockBehavior : MonoBehaviour 
 {
+	public int x;
+	public int y;
+	public int z;
+
 	void OnMouseDrag()
 	{
-		transform.parent.gameObject.GetComponent<PlayerBlocksControl>().Drag(Input.mousePosition, transform.position, transform.localPosition);
+		transform.parent.gameObject.GetComponent<PlayerBlocksControl>().Drag(Input.mousePosition, transform.position, new Vector3Int(x, y, z));
 	}
 
 	void OnMouseDown()

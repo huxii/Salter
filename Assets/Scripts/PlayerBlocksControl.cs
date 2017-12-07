@@ -6,6 +6,9 @@ using DG.Tweening;
 public class PlayerBlocksControl : MonoBehaviour
 {
 	private List<GameObject> blocks;
+	public int width;
+	public int length;
+	public int height;
 
 	GameObject gameManager;
 	AudioSource audio;
@@ -68,7 +71,7 @@ public class PlayerBlocksControl : MonoBehaviour
 		*/
 	}
 		
-	public void Drag(Vector3 mousePos, Vector3 worldPos, Vector3 localPos)
+	public void Drag(Vector3 mousePos, Vector3 worldPos, Vector3Int offset)
 	{
 		Ray ray = Camera.main.ScreenPointToRay(mousePos);
 		RaycastHit[] hits;
@@ -102,7 +105,8 @@ public class PlayerBlocksControl : MonoBehaviour
 			hitGrid.GetComponent<GridBlockControl>().y,
 			hitGrid.GetComponent<GridBlockControl>().z
 		);
-		gameManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx, hitGridIdx);
+		//Debug.Log(startGridIdx + hitGridIdx);
+		gameManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx - offset, hitGridIdx - offset);
 
 
 		/*
