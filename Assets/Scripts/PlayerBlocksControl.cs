@@ -7,12 +7,11 @@ public class PlayerBlocksControl : MonoBehaviour
 {
 	private List<GameObject> blocks;
 
-	bool movable;
-	public AudioSource audio;
+	GameObject gameManager;
+	AudioSource audio;
 
 	void Start()
 	{
-		movable = true;
 		blocks = new List<GameObject>();
 		foreach (Transform child in transform)
 		{
@@ -22,20 +21,27 @@ public class PlayerBlocksControl : MonoBehaviour
 			}
 		}
 
-		/*
-		RaycastHit[] hits;
-		hits = Physics.RaycastAll(new Vector3(-0.5f, 0.0f, 0.0f) - transform.forward, transform.forward, 1.0f);
-		foreach (RaycastHit hit in hits)
-		{
-			Debug.Log(hit.collider.gameObject.name);
-		}
-		*/
-
 		audio = GetComponent<AudioSource>();
+		gameManager = GameObject.Find("Game Manager");
 	}
 
 	bool CollisionTest(Vector3 newPos)
 	{		
+		RaycastHit[] hits;
+		hits = Physics.RaycastAll(transform.position, newPos - transform.position, (newPos - transform.position).magnitude);
+
+		foreach (RaycastHit hit in hits)
+		{
+			GameObject hitObj = hit.collider.gameObject;
+			if (!hitObj.CompareTag("GridBlock") && !hitObj.CompareTag("Sound"))
+			{
+				return true;
+			}
+		}
+
+		return false;
+
+		/*
 		foreach (GameObject block in blocks)
 		{
 			Vector3 pos = newPos + block.transform.localPosition;
@@ -60,20 +66,60 @@ public class PlayerBlocksControl : MonoBehaviour
 			}
 		}
 		return false;
+		*/
 	}
 		
 	public void Drag(Vector3 mousePos, Vector3 worldPos, Vector3 localPos)
 	{
-		if (!movable)
+		Ray ray = Camera.main.ScreenPointToRay(mousePos);
+		RaycastHit[] hits;
+		hits = Physics.RaycastAll(ray);
+
+		GameObject hitGrid = null;
+		foreach (RaycastHit hit in hits)
+		{
+			GameObject hitObj = hit.collider.gameObject;
+			if (hitObj.CompareTag("GridBlock"))
+			{
+				hitGrid = hitObj;
+				break;
+			}
+		}
+
+		if (hitGrid == null)
 		{
 			return;
 		}
 
+		GameObject startGrid = gameManager.GetComponent<GridControl>().GetGrid(worldPos);
+		gameManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGrid, hitGrid);
+
+
+		/*
 		RaycastHit hitInfo;
 		Ray ray = Camera.main.ScreenPointToRay(mousePos);
 		Vector3 newPos = transform.position;
+
 		if (Physics.Raycast(ray, out hitInfo))
 		{
+			//if (hitInfo.collider.gameObject.tag == "GridBlock")
+			//{
+				Debug.Log("...");
+				//if (hitInfo.collider.gameObject.GetComponent<GridBlockControl>().collidedObj == 0)
+				//{
+					newPos = hitInfo.collider.gameObject.transform.position;
+
+					if (!CollisionTest(newPos))
+					{
+						Debug.Log("Moved");
+
+						transform.DOMove(newPos, 0.2f).SetEase(Ease.InOutCubic);
+						movable = false;
+						StartCoroutine(DelayToMove(0.2f));
+					}
+				//}
+			//}
+			/*
 			//if (hitInfo.collider.gameObject.tag == "EmptyBlock")
 			//{
 			//prePos = transform.position;
@@ -115,13 +161,7 @@ public class PlayerBlocksControl : MonoBehaviour
 				movable = false;
 				StartCoroutine(DelayToMove(0.1f));
 			}
-			//}
-		}
-	}
-
-	public IEnumerator DelayToMove(float delaySeconds)
-	{
-		yield return new WaitForSeconds(delaySeconds);
-		movable = true;
+			
+		}*/
 	}
 }

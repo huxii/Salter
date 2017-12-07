@@ -22,6 +22,7 @@ TagManager:
   - AssetTrigger
   - ClearMusic
   - FailMusic
+  - GridBlock
   layers:
   - Default
   - TransparentFX
