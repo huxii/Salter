@@ -11,12 +11,12 @@ public class GridControl : MonoBehaviour
 	public int gridLength = 10;
 	public int gridHeight = 1;
 	public float unitSize = 1.0f;
-	public GameObject[, , ] colliderMap;
+	public GameObject[] colliderMap;
 
 	List<Vector3Int> dir;
-	public List<GameObject> queue;
+	public List<int> queue;
 	public List<Vector3> path;
-	public GameObject[] before;
+	public int[] before;
 	bool movable;
 
 	// Use this for initialization
@@ -30,8 +30,8 @@ public class GridControl : MonoBehaviour
 		dir.Add(new Vector3Int(0, 0, 1));
 		dir.Add(new Vector3Int(0, 0, -1));
 
-		queue = new List<GameObject>();
-		before = new GameObject[gridWidth * gridHeight * gridLength];
+		queue = new List<int>();
+		before = new int[gridWidth * gridHeight * gridLength];
 		path = new List<Vector3>();
 
 		InitGrid();
@@ -46,7 +46,7 @@ public class GridControl : MonoBehaviour
 
 	void InitGrid()
 	{
-		colliderMap = new GameObject[gridWidth, gridLength, gridHeight];
+		colliderMap = new GameObject[gridWidth * gridLength * gridHeight];
 		for (int x = 0; x < gridWidth; ++x)
 		{
 			for (int y = 0; y < gridHeight; ++y)
@@ -58,7 +58,7 @@ public class GridControl : MonoBehaviour
 					newBlock.GetComponent<GridBlockControl>().y = y;
 					newBlock.GetComponent<GridBlockControl>().z = z;
 					newBlock.transform.position = GridPosition(x, y, z);
-					colliderMap[x, z, y] = newBlock;
+					colliderMap[CoordsToIdx(x, y, z)] = newBlock;
 				}
 			}
 		}
@@ -104,49 +104,54 @@ public class GridControl : MonoBehaviour
 	}
 	*/
 
-	public bool FindPath(GameObject startGrid, GameObject endGrid)
+	public bool FindPath(int startGridIdx, int endGridIdx)
 	{
 		int head = 0;
 		int tail = 0;
 
 		queue.Clear();
-		queue.Add(startGrid);
+		queue.Add(startGridIdx);
 		++tail;
 
 		bool[] visited = new bool[gridWidth * gridHeight * gridLength];
 		for (int i = 0; i < gridWidth * gridHeight * gridLength; ++i)
 		{
 			visited[i] = false;
-			before[i] = null;
 		}
-
+			
 		while (head < tail)
 		{
-			GameObject curGrid = queue[head++];
-			Vector3Int curGridIdx = new Vector3Int(
-				curGrid.GetComponent<GridBlockControl>().x,
-				curGrid.GetComponent<GridBlockControl>().y,
-				curGrid.GetComponent<GridBlockControl>().z
+			int curGridIdx = queue[head++];
+			visited[curGridIdx] = true;
+			Vector3Int curGridIdx3 = new Vector3Int(
+				colliderMap[curGridIdx].GetComponent<GridBlockControl>().x,
+				colliderMap[curGridIdx].GetComponent<GridBlockControl>().y,
+				colliderMap[curGridIdx].GetComponent<GridBlockControl>().z
 			);
-
-			int curIdx = curGridIdx.x * gridLength + curGridIdx.z;
-			visited[curIdx] = true;
-
+			/*
+			Debug.Log(
+				curGridIdx + " " +
+				colliderMap[curGridIdx].GetComponent<GridBlockControl>().x + " " +
+				colliderMap[curGridIdx].GetComponent<GridBlockControl>().y + " " +
+				colliderMap[curGridIdx].GetComponent<GridBlockControl>().z
+			);
+			*/
 			for (int i = 0; i < dir.Count; ++i)
 			{
-				Vector3Int nextGridIdx = curGridIdx + dir[i];
-				if (nextGridIdx.x < gridWidth && nextGridIdx.y < gridHeight && nextGridIdx.z < gridLength &&
-				    nextGridIdx.x >= 0 && nextGridIdx.y >= 0 && nextGridIdx.z >= 0)
-				{
-					GameObject nextGrid = colliderMap[nextGridIdx.x, nextGridIdx.z, nextGridIdx.y];
-					int nextIdx = nextGridIdx.x * gridLength + nextGridIdx.z;
+				Vector3Int nextGridIdx3 = curGridIdx3 + dir[i];
+				Debug.Log(curGridIdx3.x + " " + curGridIdx3.y + " " + curGridIdx3.z);
 
-					if (!visited[nextIdx] && !nextGrid.GetComponent<GridBlockControl>().collided)
+				if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
+					nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
+				{
+					int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+					GameObject nextGrid = colliderMap[nextGridIdx];
+					if (!visited[nextGridIdx] && !nextGrid.GetComponent<GridBlockControl>().collided)
 					{
-						before[nextIdx] = curGrid;
-						queue.Add(nextGrid);
+						before[nextGridIdx] = curGridIdx;
+						queue.Add(nextGridIdx);
 						++tail;
-						if (nextGrid == endGrid)
+						if (nextGridIdx == endGridIdx)
 						{
 							return true;
 						}
@@ -157,35 +162,42 @@ public class GridControl : MonoBehaviour
 		return false;
 	}
 
-	public void MoveToGrid(GameObject block, GameObject startGrid, GameObject endGrid)
+	public void MoveToGrid(GameObject block, Vector3Int startGridIdx3, Vector3Int endGridIdx3)
 	{
 		if (!movable)
 		{
 			return;
 		}
-			
-		if (FindPath(startGrid, endGrid))
+
+		int startGridIdx = CoordsToIdx(startGridIdx3.x, startGridIdx3.y, startGridIdx3.z);
+		int endGridIdx = CoordsToIdx(endGridIdx3.x, endGridIdx3.y, endGridIdx3.z);
+
+		if (FindPath(startGridIdx, endGridIdx))
 		{
 			path.Clear();
-			GameObject grid = endGrid;
-			while (grid != startGrid)
+			int gridIdx = endGridIdx;
+			while (gridIdx != startGridIdx)
 			{
-				int idx = grid.GetComponent<GridBlockControl>().x * gridLength + grid.GetComponent<GridBlockControl>().z;
-				path.Add(grid.transform.position);
-				grid = before[idx];
+				path.Add(colliderMap[gridIdx].transform.position);
+				gridIdx = before[gridIdx];
 			}
+			//path.Add(colliderMap[startGridIdx].transform.position);
 
-			Vector3[] waypoints = new Vector3[path.Count + 1];
+			Vector3[] waypoints = new Vector3[path.Count];
 			int j = 0;
-			waypoints[j++] = startGrid.transform.position;
 			for (int i = path.Count - 1; i >= 0; --i)
 			{
 				waypoints[j++] = path[i];
 			}
 
 			movable = false;
-			block.transform.DOPath(waypoints, path.Count * 0.12f).OnComplete(CanMove);
+			//block.transform.position = waypoints[path.Count - 1];
+			block.transform.DOPath(waypoints, path.Count * 0.2f).SetEase(Ease.InCubic).OnComplete(CanMove);
 			//StartCoroutine(DelayToMove(path.Count * 0.12f));
+		}
+		else
+		{
+			Debug.Log("No Path");
 		}
 	}
 
@@ -201,11 +213,16 @@ public class GridControl : MonoBehaviour
 		
 	public GameObject GetGrid(Vector3 pos)
 	{
-		int x = (int)((pos.x - 0.5f) / unitSize + gridWidth / 2);
+		int x = (int)(pos.x / unitSize + gridWidth / 2);
 		int y = (int)(pos.y / unitSize + gridHeight / 2);
-		int z = (int)((pos.z - 0.5f) / unitSize + gridLength / 2);
+		int z = (int)(pos.z/ unitSize + gridLength / 2);
 
-		return colliderMap[x, z, y];
+		return colliderMap[CoordsToIdx(x, y, z)];
+	}
+
+	public int CoordsToIdx(int x, int y, int z)
+	{
+		return x * gridLength + z;
 	}
 
 	public void CanMove()

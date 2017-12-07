@@ -20,7 +20,6 @@ public class PlayerBlocksControl : MonoBehaviour
 				blocks.Add(child.gameObject);
 			}
 		}
-
 		audio = GetComponent<AudioSource>();
 		gameManager = GameObject.Find("Game Manager");
 	}
@@ -91,8 +90,19 @@ public class PlayerBlocksControl : MonoBehaviour
 			return;
 		}
 
-		GameObject startGrid = gameManager.GetComponent<GridControl>().GetGrid(worldPos);
-		gameManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGrid, hitGrid);
+		GameObject startGrid = gameManager.GetComponent<GridControl>().GetGrid(worldPos);	
+		Vector3Int startGridIdx = new Vector3Int(
+			startGrid.GetComponent<GridBlockControl>().x,
+			startGrid.GetComponent<GridBlockControl>().y,
+			startGrid.GetComponent<GridBlockControl>().z
+		);
+
+		Vector3Int hitGridIdx = new Vector3Int(
+			hitGrid.GetComponent<GridBlockControl>().x,
+			hitGrid.GetComponent<GridBlockControl>().y,
+			hitGrid.GetComponent<GridBlockControl>().z
+		);
+		gameManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx, hitGridIdx);
 
 
 		/*
