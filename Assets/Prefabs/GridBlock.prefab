@@ -64,4 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e11b2cf9bcb4949869594f208745ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collidedObj: 0
+  collided: 0
+  x: 0
+  y: 0
+  z: 0

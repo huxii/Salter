@@ -10,7 +10,7 @@ public class PlayerBlocksControl : MonoBehaviour
 	public int length;
 	public int height;
 
-	GameObject gameManager;
+	GameObject gridManager;
 	AudioSource audio;
 
 	void Start()
@@ -24,7 +24,7 @@ public class PlayerBlocksControl : MonoBehaviour
 			}
 		}
 		audio = GetComponent<AudioSource>();
-		gameManager = GameObject.Find("Game Manager");
+		gridManager = GameObject.Find("GridManager");
 	}
 
 	bool CollisionTest(Vector3 newPos)
@@ -93,7 +93,7 @@ public class PlayerBlocksControl : MonoBehaviour
 			return;
 		}
 
-		GameObject startGrid = gameManager.GetComponent<GridControl>().GetGrid(worldPos);	
+		GameObject startGrid = gridManager.GetComponent<GridControl>().GetGrid(worldPos);	
 		Vector3Int startGridIdx = new Vector3Int(
 			startGrid.GetComponent<GridBlockControl>().x,
 			startGrid.GetComponent<GridBlockControl>().y,
@@ -106,7 +106,7 @@ public class PlayerBlocksControl : MonoBehaviour
 			hitGrid.GetComponent<GridBlockControl>().z
 		);
 		//Debug.Log(startGridIdx + hitGridIdx);
-		gameManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx - offset, hitGridIdx - offset);
+		gridManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx - offset, hitGridIdx - offset);
 
 
 		/*

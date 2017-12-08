@@ -9,44 +9,43 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1220394926985310}
+  m_RootGameObject: {fileID: 1393840041515522}
   m_IsPrefabParent: 1
---- !u!1 &1220394926985310
+--- !u!1 &1393840041515522
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4348143192167406}
-  - component: {fileID: 114784134472169766}
-  - component: {fileID: 114962805997146392}
+  - component: {fileID: 4856019304209188}
+  - component: {fileID: 114189039585351000}
   m_Layer: 4
-  m_Name: GameManager
+  m_Name: GridManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4348143192167406
+--- !u!4 &4856019304209188
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1220394926985310}
+  m_GameObject: {fileID: 1393840041515522}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114784134472169766
+--- !u!114 &114189039585351000
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1220394926985310}
+  m_GameObject: {fileID: 1393840041515522}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1747a3636091f9f4ebadbaa46f985986, type: 3}
@@ -54,23 +53,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridBlockPrefab: {fileID: 1756995913639566, guid: 782d981691a5264479012a4deca18599,
     type: 2}
-  models: []
-  gridWidth: 10
-  gridLength: 11
+  flowPrefab: {fileID: 1728715651192664, guid: 1632f25061338ba4ba9a4313749343c7, type: 2}
+  gridWidth: 11
+  gridLength: 10
   gridHeight: 1
   unitSize: 1
   colliderMap: []
+  startFlow: {fileID: 0}
+  endFlow: {fileID: 0}
+  startFlowX: 0
+  startFlowY: 0
+  startFlowZ: 3
+  endFlowX: 0
+  endFlowY: 0
+  endFlowZ: 0
   queue: 
   path: []
   before: 
---- !u!114 &114962805997146392
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1220394926985310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87095538d5ed0ed4da1fb1ab9b747204, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

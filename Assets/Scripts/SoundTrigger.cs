@@ -20,10 +20,10 @@ public class SoundTrigger : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
 		if(!isPlaying && other.gameObject.CompareTag("Water")){
-			if (other.gameObject.GetComponent<WaterBehavior> ().isAwake) {
+			//if (other.gameObject.GetComponent<WaterBehavior> ().isAwake) {
 				audio.Play ();
 				isPlaying = true;
-			}
+			//}
 		}
 	}
 }

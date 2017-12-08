@@ -5,22 +5,90 @@ using DG.Tweening;
 
 public class FlowControl : MonoBehaviour
 {
+	public GameObject flow;
+	public GameObject waterParticlePrefab = null;
+	public int x;
+	public int y;
+	public int z;
+	public float length = 1.0f;
+	public float speed = 4;
+	public bool autoTrigger = true;
+	//public bool WaterTrigger = false;
+	public bool startFlow = false;
+	public bool endFlow = false;
+
+	GameObject gridManager;
+	bool completed = false;
 
 	// Use this for initialization
 	void Start()
 	{
-		Flow();
+		gridManager = GameObject.Find("GridManager");
+
+		if (transform.parent)
+		{
+			x = transform.parent.gameObject.GetComponent<GridBlockControl>().x;
+			y = transform.parent.gameObject.GetComponent<GridBlockControl>().y;
+			z = transform.parent.gameObject.GetComponent<GridBlockControl>().z;
+		}
+
+		gameObject.SetActiveRecursively(false);
+		if (autoTrigger)
+		{
+			Flow();
+		}
 	}
 	
 	// Update is called once per frame
 	void Update()
 	{
+		if (completed)
+		{
+			gridManager.GetComponent<GridControl>().ExpandFlow(x, y, z);
+		}
+	}
 		
+	void FlowComplete()
+	{
+		if (startFlow)
+		{
+			gridManager.GetComponent<GridControl>().StartFlow();
+		}
+		else
+		if (endFlow)
+		{
+			//Debug.Log("bug");
+		}
+		else
+		{
+			completed = true;
+			gridManager.GetComponent<GridControl>().IfEndFlow(x, y, z);
+		}
 	}
 
-	void Flow()
+	public void Flow()
 	{
-		transform.localScale = new Vector3(0.0f, transform.localScale.y, transform.localScale.z);
-		transform.DOScaleX(1.0f, 1.0f);
+		gameObject.SetActiveRecursively(true);
+
+		if (!startFlow && !endFlow)
+		{
+			GameObject particle = (GameObject)Instantiate(waterParticlePrefab, gameObject.transform);
+			particle.transform.localPosition = new Vector3(0, 0.3f, 0);
+		}
+
+		flow.transform.localScale = new Vector3(0.0f, flow.transform.localScale.y, flow.transform.localScale.z);
+		flow.transform.DOScaleX(length, length / speed).SetEase(Ease.Linear).OnComplete(FlowComplete);
 	}
+
+	/*
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.CompareTag("Water"))
+		{
+			x = other.gameObject.GetComponent<GridBlockControl>().x;
+			y = other.gameObject.GetComponent<GridBlockControl>().y;
+			z = other.gameObject.GetComponent<GridBlockControl>().z;
+		}
+	}
+	*/
 }

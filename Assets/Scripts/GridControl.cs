@@ -6,12 +6,21 @@ using DG.Tweening;
 public class GridControl : MonoBehaviour 
 {
 	public GameObject gridBlockPrefab;
-	public GameObject[] models;
+	public GameObject flowPrefab;
 	public int gridWidth = 10;
 	public int gridLength = 10;
 	public int gridHeight = 1;
 	public float unitSize = 1.0f;
 	public GameObject[] colliderMap;
+
+	public GameObject startFlow;
+	public GameObject endFlow;
+	public int startFlowX;
+	public int startFlowY;
+	public int startFlowZ;
+	public int endFlowX;
+	public int endFlowY;
+	public int endFlowZ;
 
 	List<Vector3Int> dir;
 	public List<int> queue;
@@ -35,6 +44,7 @@ public class GridControl : MonoBehaviour
 		path = new List<Vector3>();
 
 		InitGrid();
+	
 		//UpdateGrid();
 	}
 	
@@ -76,10 +86,9 @@ public class GridControl : MonoBehaviour
 		{
 			Vector3Int offset = new Vector3Int(blockWidth - 1, 0, i);
 			nextGridIdx3 = curGridIdx3 + offset + dir[0];
-			if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
-			    nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
+			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+			if (nextGridIdx != -1)
 			{
-				int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
 				{
 					collided = true;
@@ -104,10 +113,9 @@ public class GridControl : MonoBehaviour
 		{
 			Vector3Int offset = new Vector3Int(0, 0, i);
 			nextGridIdx3 = curGridIdx3 + offset + dir[1];
-			if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
-				nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
+			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+			if (nextGridIdx != -1)
 			{
-				int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
 				{
 					collided = true;
@@ -131,10 +139,9 @@ public class GridControl : MonoBehaviour
 		{
 			Vector3Int offset = new Vector3Int(i, 0, blockLength - 1);
 			nextGridIdx3 = curGridIdx3 + offset + dir[2];
-			if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
-				nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
+			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+			if (nextGridIdx != -1)
 			{
-				int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
 				{
 					collided = true;
@@ -159,11 +166,9 @@ public class GridControl : MonoBehaviour
 		{
 			Vector3Int offset = new Vector3Int(i, 0, 0);
 			nextGridIdx3 = curGridIdx3 + offset + dir[3];
-			//Debug.Log(nextGridIdx3);
-			if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
-				nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
+			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
+			if (nextGridIdx != -1)
 			{
-				int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
 				{
 					collided = true;
@@ -212,7 +217,7 @@ public class GridControl : MonoBehaviour
 			);
 
 			int result = CollisionTest(curGridIdx3, blockWidth, blockLength, blockHeight);
-			Debug.Log(result);
+			//Debug.Log(result);
 			for (int i = 0; i < dir.Count; ++i)
 			{
 				int collided = (result & (1 << i));
@@ -309,6 +314,55 @@ public class GridControl : MonoBehaviour
 		}
 	}
 
+	public void StartFlow()
+	{
+		GameObject newFlow = Instantiate(flowPrefab, colliderMap[CoordsToIdx(startFlowX, startFlowY, startFlowZ)].transform);
+	}
+
+	public void ExpandFlow(int x, int y, int z)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			int dx = x + dir[i].x;
+			int dy = y + dir[i].y;
+			int dz = z + dir[i].z;
+			int idx = CoordsToIdx(dx, dy, dz);
+			if (idx != -1 && !colliderMap[idx].GetComponent<GridBlockControl>().collided)
+			{
+				GameObject newFlow = Instantiate(flowPrefab, colliderMap[idx].transform);
+				colliderMap[idx].GetComponent<GridBlockControl>().collided = true;
+				if (i == 0)
+				{
+					
+				}
+				else
+				if (i == 1)
+				{
+					newFlow.transform.localEulerAngles = new Vector3(0, -180f, 0);
+				}
+				else
+				if (i == 2)
+				{
+					newFlow.transform.localEulerAngles = new Vector3(0, -90f, 0);		
+				}
+				else
+				if (i == 3)
+				{
+					newFlow.transform.localEulerAngles = new Vector3(0, 90f, 0);			
+				}
+			}
+		}
+	}
+
+	public void IfEndFlow(int x, int y, int z)
+	{
+		if (CoordsToIdx(x, y, z) == CoordsToIdx(endFlowX, endFlowY, endFlowZ))
+		{
+			endFlow.GetComponent<FlowControl>().Flow();
+			GameObject.Find("Level Manager").SendMessage("LevelComplete");
+		}
+	}
+
 	public Vector3 GridPosition(int x, int y, int z)
 	{
 		Vector3 pos = new Vector3();
@@ -330,7 +384,13 @@ public class GridControl : MonoBehaviour
 
 	public int CoordsToIdx(int x, int y, int z)
 	{
-		return x * gridLength + z;
+		if (x < gridWidth && y < gridHeight && z < gridLength &&
+		    x >= 0 && y >= 0 && z >= 0)
+		{
+			return x * gridLength + z;
+		}
+
+		return -1;
 	}
 
 	public void CanMove()
