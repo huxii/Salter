@@ -15,14 +15,18 @@ public class AssetTriggerControl : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		animator = GetComponent<Animator>();
 		watered = false;
-		animator.SetBool("Watered", watered);
 
-		if (randomSpeed)
+		animator = GetComponent<Animator>();
+		if (animator)
 		{
-			speed = Random.Range(0.5f, 0.7f);
-			animator.speed = speed;
+			animator.SetBool("Watered", watered);
+
+			if (randomSpeed)
+			{
+				speed = Random.Range(0.5f, 0.7f);
+				animator.speed = speed;
+			}
 		}
 	}
 
