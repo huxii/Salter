@@ -17,13 +17,11 @@ public class FlowControl : MonoBehaviour
 	public bool startFlow = false;
 	public bool endFlow = false;
 
-	GameObject gridManager;
 	bool completed = false;
 
 	// Use this for initialization
 	void Start()
 	{
-		gridManager = GameObject.Find("GridManager");
 
 		if (transform.parent)
 		{
@@ -42,9 +40,12 @@ public class FlowControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (completed)
+		if (completed && !startFlow && !endFlow)
 		{
-			gridManager.GetComponent<GridControl>().ExpandFlow(x, y, z);
+			if (transform.parent && transform.parent.transform.parent)
+			{
+				transform.parent.transform.parent.gameObject.GetComponent<GridControl>().ExpandFlow(x, y, z);
+			}
 		}
 	}
 		
@@ -52,7 +53,7 @@ public class FlowControl : MonoBehaviour
 	{
 		if (startFlow)
 		{
-			gridManager.GetComponent<GridControl>().StartFlow();
+			//gridManager.GetComponent<GridControl>().StartFlow();
 		}
 		else
 		if (endFlow)
@@ -62,7 +63,7 @@ public class FlowControl : MonoBehaviour
 		else
 		{
 			completed = true;
-			gridManager.GetComponent<GridControl>().IfEndFlow(x, y, z);
+			//gridManager.GetComponent<GridControl>().IfEndFlow(x, y, z);
 		}
 	}
 

@@ -13,8 +13,7 @@ public class GridControl : MonoBehaviour
 	public float unitSize = 1.0f;
 	public GameObject[] colliderMap;
 
-	public GameObject startFlow;
-	public GameObject endFlow;
+	public GameObject nextAction;
 	public int startFlowX;
 	public int startFlowY;
 	public int startFlowZ;
@@ -27,11 +26,15 @@ public class GridControl : MonoBehaviour
 	public List<Vector3> path;
 	public int[] before;
 	bool movable;
+	bool flowStarted;
+	bool flowEnded;
 
 	// Use this for initialization
 	void Start () 
 	{
 		movable = true; 
+		flowStarted = false;
+		flowEnded = false;
 
 		dir = new List<Vector3Int>();
 		dir.Add(new Vector3Int(1, 0, 0));
@@ -67,7 +70,7 @@ public class GridControl : MonoBehaviour
 					newBlock.GetComponent<GridBlockControl>().x = x;
 					newBlock.GetComponent<GridBlockControl>().y = y;
 					newBlock.GetComponent<GridBlockControl>().z = z;
-					newBlock.transform.position = GridPosition(x, y, z);
+					newBlock.transform.localPosition = GridPosition(x, y, z);
 					colliderMap[CoordsToIdx(x, y, z)] = newBlock;
 				}
 			}
@@ -89,7 +92,7 @@ public class GridControl : MonoBehaviour
 			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 			if (nextGridIdx != -1)
 			{
-				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().cantMove)
 				{
 					collided = true;
 					break;
@@ -116,7 +119,7 @@ public class GridControl : MonoBehaviour
 			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 			if (nextGridIdx != -1)
 			{
-				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().cantMove)
 				{
 					collided = true;
 					break;
@@ -142,7 +145,7 @@ public class GridControl : MonoBehaviour
 			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 			if (nextGridIdx != -1)
 			{
-				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().cantMove)
 				{
 					collided = true;
 					break;
@@ -169,7 +172,7 @@ public class GridControl : MonoBehaviour
 			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 			if (nextGridIdx != -1)
 			{
-				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().collided)
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().cantMove)
 				{
 					collided = true;
 					break;
@@ -273,7 +276,7 @@ public class GridControl : MonoBehaviour
 		return false;
 	}
 
-	public void MoveToGrid(GameObject block, Vector3Int startGridIdx3, Vector3Int endGridIdx3)
+	public void MoveToGrid(GameObject block, Vector3Int startGridIdx3, Vector3Int endGridIdx3, AudioSource audio)
 	{
 		int startGridIdx = CoordsToIdx(startGridIdx3.x, startGridIdx3.y, startGridIdx3.z);
 		int endGridIdx = CoordsToIdx(endGridIdx3.x, endGridIdx3.y, endGridIdx3.z);
@@ -304,8 +307,10 @@ public class GridControl : MonoBehaviour
 
 
 			movable = false;
+			//audio.loop = true;
+			//audio.Play();
 			//block.transform.position = waypoints[path.Count - 1];
-			block.transform.DOPath(waypoints, (path.Count - 1) * 0.25f).SetEase(Ease.InOutCubic).OnComplete(CanMove);
+			block.transform.DOPath(waypoints, (path.Count - 1) * 0.18f).SetEase(Ease.InOutCubic).OnComplete(CanMove);
 			//StartCoroutine(DelayToMove(path.Count * 0.12f));
 		}
 		else
@@ -316,6 +321,7 @@ public class GridControl : MonoBehaviour
 
 	public void StartFlow()
 	{
+		flowStarted = true;
 		GameObject newFlow = Instantiate(flowPrefab, colliderMap[CoordsToIdx(startFlowX, startFlowY, startFlowZ)].transform);
 	}
 
@@ -327,10 +333,10 @@ public class GridControl : MonoBehaviour
 			int dy = y + dir[i].y;
 			int dz = z + dir[i].z;
 			int idx = CoordsToIdx(dx, dy, dz);
-			if (idx != -1 && !colliderMap[idx].GetComponent<GridBlockControl>().collided)
+			if (idx != -1 && !colliderMap[idx].GetComponent<GridBlockControl>().cantFlow)
 			{
 				GameObject newFlow = Instantiate(flowPrefab, colliderMap[idx].transform);
-				colliderMap[idx].GetComponent<GridBlockControl>().collided = true;
+				colliderMap[idx].GetComponent<GridBlockControl>().cantFlow = true;
 				if (i == 0)
 				{
 					
@@ -354,12 +360,33 @@ public class GridControl : MonoBehaviour
 		}
 	}
 
-	public void IfEndFlow(int x, int y, int z)
+	public void EndFlow()
 	{
-		if (CoordsToIdx(x, y, z) == CoordsToIdx(endFlowX, endFlowY, endFlowZ))
+		flowEnded = true;
+		if (nextAction.CompareTag("Grid"))
 		{
-			endFlow.GetComponent<FlowControl>().Flow();
+			nextAction.GetComponent<GridControl>().StartFlow();
+		}
+		else
+		if (nextAction.CompareTag("Water"))
+		{
+			nextAction.GetComponent<FlowControl>().Flow();
 			GameObject.Find("Level Manager").SendMessage("LevelComplete");
+		}
+	}
+
+	public void TriggerEnter(Collider other, int x, int y, int z)
+	{
+		if (!flowStarted && other.gameObject.CompareTag("Water") 
+			&& CoordsToIdx(x, y, z) == CoordsToIdx(startFlowX, startFlowY, startFlowZ))
+		{
+			StartFlow();
+		}
+
+		if (!flowEnded && other.gameObject.CompareTag("Water")
+		    && CoordsToIdx(x, y, z) == CoordsToIdx(endFlowX, endFlowY, endFlowZ))
+		{
+			EndFlow();
 		}
 	}
 

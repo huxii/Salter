@@ -1103,6 +1103,11 @@ Prefab:
       propertyPath: endFlowZ
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114189039585351000, guid: fefe952064763384581eb722a8a1b61d,
+        type: 2}
+      propertyPath: nextAction
+      value: 
+      objectReference: {fileID: 2049664405}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fefe952064763384581eb722a8a1b61d, type: 2}
   m_IsPrefabParent: 0
@@ -3289,7 +3294,7 @@ Prefab:
     - target: {fileID: 114279277887850900, guid: 15817dc5f00936942a4fe5b2bdeb2417,
         type: 2}
       propertyPath: length
-      value: 20
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 15817dc5f00936942a4fe5b2bdeb2417, type: 2}

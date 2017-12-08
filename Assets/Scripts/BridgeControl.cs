@@ -16,7 +16,7 @@ public class BridgeControl : MonoBehaviour
 		audio = GetComponent<AudioSource>();
 
 		isTriggered = false;
-		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0.0f);
+		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, -90.0f);
 	}
 	
 	// Update is called once per frame
@@ -24,17 +24,17 @@ public class BridgeControl : MonoBehaviour
 	{
 		if (isTriggered)
 		{
-			/*
 			Vector3 r = transform.localEulerAngles;
-			transform.DORotate(new Vector3(r.x, r.y, 90f), 0.5f).SetEase(Ease.InOutCubic);
-			*/
+			transform.DORotate(new Vector3(r.x, r.y, 0f), 1f).SetEase(Ease.OutCubic);
 
+			/*
 			float rz = transform.localEulerAngles.z;
 			if (rz < 90.0f)
 			{
 				rz += fallingSpeed * Time.deltaTime * 100.0f;
 				transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, rz);
 			}
+			*/
 		}
 	}
 

@@ -23,6 +23,7 @@ TagManager:
   - ClearMusic
   - FailMusic
   - GridBlock
+  - Grid
   layers:
   - Default
   - TransparentFX

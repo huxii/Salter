@@ -81,7 +81,7 @@ public class PlayerBlocksControl : MonoBehaviour
 		foreach (RaycastHit hit in hits)
 		{
 			GameObject hitObj = hit.collider.gameObject;
-			if (hitObj.CompareTag("GridBlock"))
+			if (hitObj.CompareTag("GridBlock") && hitObj.transform.parent.gameObject == gridManager)
 			{
 				hitGrid = hitObj;
 				break;
@@ -106,7 +106,7 @@ public class PlayerBlocksControl : MonoBehaviour
 			hitGrid.GetComponent<GridBlockControl>().z
 		);
 		//Debug.Log(startGridIdx + hitGridIdx);
-		gridManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx - offset, hitGridIdx - offset);
+		gridManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx - offset, hitGridIdx - offset, audio);
 
 
 		/*

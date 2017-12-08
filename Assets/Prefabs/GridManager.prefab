@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114189039585351000}
   m_Layer: 4
   m_Name: GridManager
-  m_TagString: Untagged
+  m_TagString: Grid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

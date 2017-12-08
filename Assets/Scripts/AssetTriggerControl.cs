@@ -37,17 +37,14 @@ public class AssetTriggerControl : MonoBehaviour
 		{
 			if (other.CompareTag("Water"))
 			{
-				if (other.gameObject.GetComponent<WaterBehavior>() && other.gameObject.GetComponent<WaterBehavior>().isAwake)
+				if (!watered)
 				{
-					if (!watered)
-					{
-						watered = true;
-						animator.SetBool("Watered", watered);
+					watered = true;
+					animator.SetBool("Watered", watered);
 
-						if (!shouldBeTriggered)
-						{
-							GameObject.Find("Level Manager").SendMessage("LevelFail");
-						}
+					if (!shouldBeTriggered)
+					{
+						GameObject.Find("Level Manager").SendMessage("LevelFail");
 					}
 				}
 			}
