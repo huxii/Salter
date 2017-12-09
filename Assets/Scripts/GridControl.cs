@@ -240,38 +240,6 @@ public class GridControl : MonoBehaviour
 					}
 				}
 			}
-			/*
-			Debug.Log(
-				curGridIdx + " " +
-				colliderMap[curGridIdx].GetComponent<GridBlockControl>().x + " " +
-				colliderMap[curGridIdx].GetComponent<GridBlockControl>().y + " " +
-				colliderMap[curGridIdx].GetComponent<GridBlockControl>().z
-			);
-			*/
-			/*
-			for (int i = 0; i < dir.Count; ++i)
-			{
-				Vector3Int nextGridIdx3 = curGridIdx3 + dir[i];
-				//Debug.Log(curGridIdx3.x + " " + curGridIdx3.y + " " + curGridIdx3.z);
-
-				if (nextGridIdx3.x < gridWidth && nextGridIdx3.y < gridHeight && nextGridIdx3.z < gridLength &&
-					nextGridIdx3.x >= 0 && nextGridIdx3.y >= 0 && nextGridIdx3.z >= 0)
-				{
-					int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
-					GameObject nextGrid = colliderMap[nextGridIdx];
-					if (!visited[nextGridIdx] && !nextGrid.GetComponent<GridBlockControl>().collided)
-					{
-						before[nextGridIdx] = curGridIdx;
-						queue.Add(nextGridIdx);
-						++tail;
-						if (nextGridIdx == endGridIdx)
-						{
-							return true;
-						}
-					}
-				}
-			}
-			*/
 		}	
 		return false;
 	}
@@ -315,7 +283,7 @@ public class GridControl : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("No Path");
+			//Debug.Log("No Path");
 		}
 	}
 

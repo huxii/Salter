@@ -53,26 +53,15 @@ public class LevelControl : SceneLoader
 
 	public void LevelComplete()
 	{
-		Debug.Log("Level complete");
+		//Debug.Log("Level complete");
 
 		levelComplete = true;
 	}
 
 	public void LevelFail()
 	{
-		Debug.Log("Level fail");
+		//Debug.Log("Level fail");
 
-		/*
-		GameObject[] waters = GameObject.FindGameObjectsWithTag("Water");
-		for (int i = 0; i < waters.Length; ++i)
-		{
-			GameObject water = waters[i];
-			if (water.GetComponent<WaterBehavior>())
-			{
-				water.GetComponent<WaterBehavior>().Stop();
-			}
-		}
-		*/
 		GameObject.FindGameObjectWithTag("FailMusic").GetComponent<AudioSource>().Play();
 		StartCoroutine(DelayToRestart(2f));
 	}

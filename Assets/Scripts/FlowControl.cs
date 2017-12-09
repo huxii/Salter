@@ -23,7 +23,7 @@ public class FlowControl : MonoBehaviour
 	void Start()
 	{
 
-		if (transform.parent)
+		if (transform.parent && transform.parent.gameObject.GetComponent<GridBlockControl>())
 		{
 			x = transform.parent.gameObject.GetComponent<GridBlockControl>().x;
 			y = transform.parent.gameObject.GetComponent<GridBlockControl>().y;
