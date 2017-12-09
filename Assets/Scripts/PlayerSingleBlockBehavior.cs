@@ -1,12 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerSingleBlockBehavior : MonoBehaviour 
 {
 	public int x;
 	public int y;
 	public int z;
+
+	void OnMouseOver()
+	{
+		transform.parent.gameObject.GetComponent<PlayerBlocksControl>().Hover();
+	}
+
+	void OnMouseExit()
+	{
+		transform.parent.gameObject.GetComponent<PlayerBlocksControl>().Leave();
+	}
 
 	void OnMouseDrag()
 	{
@@ -15,7 +26,19 @@ public class PlayerSingleBlockBehavior : MonoBehaviour
 
 	void OnMouseDown()
 	{
+		transform.parent.gameObject.GetComponent<PlayerBlocksControl>().Click(Input.mousePosition);
 		GetComponent<AudioSource>().Play();
+	}
+
+	void OnMouseUp()
+	{
+		transform.parent.gameObject.GetComponent<PlayerBlocksControl>().Leave();
+	}
+
+	public void TweenEmission(Color color)
+	{
+		Material mat = gameObject.GetComponent<MeshRenderer>().material;
+		mat.DOColor(color, "_EmissionColor", 1f);		
 	}
 	/*
 	void OnTriggerEnter(Collider other)

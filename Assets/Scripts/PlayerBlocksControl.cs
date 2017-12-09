@@ -9,6 +9,9 @@ public class PlayerBlocksControl : MonoBehaviour
 	public int width;
 	public int length;
 	public int height;
+	public Color hoverColor;
+	public Color DragColor;
+	public GameObject clickStoneParticle;
 
 	GameObject gridManager;
 	AudioSource audio;
@@ -27,8 +30,48 @@ public class PlayerBlocksControl : MonoBehaviour
 		gridManager = GameObject.Find("GridManager");
 	}
 		
+	public void Hover()
+	{
+		if (!Input.GetMouseButton(0))
+		{
+			foreach (GameObject block in blocks)
+			{
+				block.GetComponent<PlayerSingleBlockBehavior>().TweenEmission(hoverColor);
+			}
+		}
+	}
+
+	public void Leave()
+	{
+		foreach (GameObject block in blocks)
+		{
+			block.GetComponent<PlayerSingleBlockBehavior>().TweenEmission(new Color(0, 0, 0, 1));
+		}
+	}
+
+	public void Click(Vector3 mousePos)
+	{
+		/*
+		GameObject newParticle = Instantiate(
+			clickStoneParticle, 
+			Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, gameObject.transform.position.z)),
+			new Quaternion()
+		);
+		*/
+		GameObject newParticle = Instantiate(
+			clickStoneParticle, 
+			transform
+		);
+		newParticle.transform.localPosition = new Vector3((width - 1) * 0.5f, 1.0f + height * 0.5f, (length - 1) * 0.5f);
+	}
+
 	public void Drag(Vector3 mousePos, Vector3 worldPos, Vector3Int offset)
 	{
+		foreach (GameObject block in blocks)
+		{
+			block.GetComponent<PlayerSingleBlockBehavior>().TweenEmission(DragColor);
+		}
+
 		Ray ray = Camera.main.ScreenPointToRay(mousePos);
 		RaycastHit[] hits;
 		hits = Physics.RaycastAll(ray);
