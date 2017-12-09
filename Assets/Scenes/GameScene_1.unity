@@ -1788,7 +1788,7 @@ Prefab:
     - target: {fileID: 114189039585351000, guid: fefe952064763384581eb722a8a1b61d,
         type: 2}
       propertyPath: gridWidth
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 114189039585351000, guid: fefe952064763384581eb722a8a1b61d,
         type: 2}
