@@ -6,6 +6,7 @@ using DG.Tweening;
 public class BridgeControl : MonoBehaviour
 {
 	public float fallingSpeed = 0.1f;
+	public bool leanDown = false;
 
 	AudioSource audio;
 	bool isTriggered;
@@ -16,7 +17,14 @@ public class BridgeControl : MonoBehaviour
 		audio = GetComponent<AudioSource>();
 
 		isTriggered = false;
-		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, -90.0f);
+		if (!leanDown)
+		{
+			transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, -90.0f);
+		}
+		else
+		{
+			transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0.0f);
+		}
 	}
 	
 	// Update is called once per frame
