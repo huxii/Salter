@@ -244,7 +244,7 @@ public class GridControl : MonoBehaviour
 		return false;
 	}
 
-	public void MoveToGrid(GameObject block, Vector3Int startGridIdx3, Vector3Int endGridIdx3, AudioSource audio)
+	public void MoveToGrid(GameObject block, Vector3Int startGridIdx3, Vector3Int endGridIdx3)
 	{
 		int startGridIdx = CoordsToIdx(startGridIdx3.x, startGridIdx3.y, startGridIdx3.z);
 		int endGridIdx = CoordsToIdx(endGridIdx3.x, endGridIdx3.y, endGridIdx3.z);
@@ -278,8 +278,10 @@ public class GridControl : MonoBehaviour
 			//audio.loop = true;
 			//audio.Play();
 			//block.transform.position = waypoints[path.Count - 1];
-			block.transform.DOPath(waypoints, (path.Count - 1) * 0.18f).SetEase(Ease.InOutCubic).OnComplete(CanMove);
-			//StartCoroutine(DelayToMove(path.Count * 0.12f));
+			AudioSource audio = block.GetComponent<AudioSource>();
+			block.transform.DOPath(waypoints, (path.Count - 1) * 0.18f).SetEase(Ease.InOutCubic)
+				.OnWaypointChange((int idx) => {if (idx != 0) {audio.Play();}})
+				.OnComplete(() => {movable = true;});
 		}
 		else
 		{

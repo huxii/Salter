@@ -105,6 +105,6 @@ public class PlayerBlocksControl : MonoBehaviour
 			hitGrid.GetComponent<GridBlockControl>().z
 		);
 		//Debug.Log(startGridIdx + hitGridIdx);
-		gridManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx - offset, hitGridIdx - offset, audio);
+		gridManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx - offset, hitGridIdx - offset);
 	}
 }
