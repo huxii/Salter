@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4668502482612252}
   - component: {fileID: 114804439718491358}
+  - component: {fileID: 114866553933719296}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -51,6 +52,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f9e3cad7f398345aa7876e9e354ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blank: {fileID: 0}
   mainCam: {fileID: 0}
-  tweenCam: {fileID: 0}
+  levelStartCam: {fileID: 0}
+  levelEndCam: {fileID: 0}
+  endGlow: {fileID: 0}
+--- !u!114 &114866553933719296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1170856284739488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824e958a8fd9e764c8e5510a806b96ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

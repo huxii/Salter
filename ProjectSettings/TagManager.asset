@@ -4,26 +4,22 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - EmptyBlock
   - WallBlock
   - Water
   - Obstacle
-  - ObstacleBlock
-  - WaterBlock
-  - WaterTrigger
-  - Edge
   - Bridge
   - Sound
   - Flower
   - Dirt
-  - Goal
   - Blank
-  - ExitButton
   - AssetTrigger
   - ClearMusic
   - FailMusic
   - GridBlock
   - Grid
+  - Button
+  - Dash
+  - Buttons
   layers:
   - Default
   - TransparentFX
