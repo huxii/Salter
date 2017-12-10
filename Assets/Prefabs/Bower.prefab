@@ -5776,3 +5776,4 @@ MonoBehaviour:
   randomSpeed: 0
   shouldBeTriggered: 0
   watered: 0
+  haloPrefab: {fileID: 1325790900782496, guid: 5fc3e320941db1347865209db4ee84b3, type: 2}

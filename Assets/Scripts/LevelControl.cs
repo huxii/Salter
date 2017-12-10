@@ -62,7 +62,8 @@ public class LevelControl : SceneLoader
 	{
 		//Debug.Log("Level fail");
 
-		mainCam.DOShakePosition(2f, 0.2f, 3);
+		mainCam.DOShakePosition(0.5f, 0.2f, 50);
+		mainCam.DOShakeRotation(0.5f, 2, 50);
 		GameObject.FindGameObjectWithTag("FailMusic").GetComponent<AudioSource>().Play();
 		StartCoroutine(DelayToRestart(2f));
 	}

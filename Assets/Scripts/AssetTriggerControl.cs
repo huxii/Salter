@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class AssetTriggerControl : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class AssetTriggerControl : MonoBehaviour
 	public bool randomSpeed = false;
 	public bool shouldBeTriggered = true;
 	public bool watered;
+	public GameObject haloPrefab;
 
 	Animator animator;
 	float speed;
@@ -49,6 +51,10 @@ public class AssetTriggerControl : MonoBehaviour
 					if (!shouldBeTriggered)
 					{
 						GameObject.Find("Level Manager").SendMessage("LevelFail");
+
+						GameObject halo = Instantiate(haloPrefab, transform);
+						halo.transform.DOScale(10f, 1f);
+						halo.GetComponent<MeshRenderer>().material.DOFade(0.0f, 1f);
 					}
 				}
 			}
