@@ -1810,6 +1810,11 @@ Prefab:
       propertyPath: endFlowX
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 114189039585351000, guid: fefe952064763384581eb722a8a1b61d,
+        type: 2}
+      propertyPath: initCollision
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fefe952064763384581eb722a8a1b61d, type: 2}
   m_IsPrefabParent: 0

@@ -92,7 +92,7 @@ public class GridControl : MonoBehaviour
 			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 			if (nextGridIdx != -1)
 			{
-				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().cantMove)
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().moveObstacles > 0)
 				{
 					collided = true;
 					break;
@@ -119,7 +119,7 @@ public class GridControl : MonoBehaviour
 			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 			if (nextGridIdx != -1)
 			{
-				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().cantMove)
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().moveObstacles > 0)
 				{
 					collided = true;
 					break;
@@ -145,7 +145,7 @@ public class GridControl : MonoBehaviour
 			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 			if (nextGridIdx != -1)
 			{
-				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().cantMove)
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().moveObstacles > 0)
 				{
 					collided = true;
 					break;
@@ -172,7 +172,7 @@ public class GridControl : MonoBehaviour
 			int nextGridIdx = CoordsToIdx(nextGridIdx3.x, nextGridIdx3.y, nextGridIdx3.z);
 			if (nextGridIdx != -1)
 			{
-				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().cantMove)
+				if (colliderMap[nextGridIdx].GetComponent<GridBlockControl>().moveObstacles > 0)
 				{
 					collided = true;
 					break;
@@ -301,10 +301,10 @@ public class GridControl : MonoBehaviour
 			int dy = y + dir[i].y;
 			int dz = z + dir[i].z;
 			int idx = CoordsToIdx(dx, dy, dz);
-			if (idx != -1 && !colliderMap[idx].GetComponent<GridBlockControl>().cantFlow)
+			if (idx != -1 && colliderMap[idx].GetComponent<GridBlockControl>().flowObstacles == 0)
 			{
 				GameObject newFlow = Instantiate(flowPrefab, colliderMap[idx].transform);
-				colliderMap[idx].GetComponent<GridBlockControl>().cantFlow = true;
+				++colliderMap[idx].GetComponent<GridBlockControl>().flowObstacles;
 				if (i == 0)
 				{
 					
