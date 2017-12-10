@@ -25,14 +25,12 @@ public class GridControl : MonoBehaviour
 	public List<int> queue;
 	public List<Vector3> path;
 	public int[] before;
-	bool movable;
 	bool flowStarted;
 	bool flowEnded;
 
 	// Use this for initialization
 	void Start () 
 	{
-		movable = true; 
 		flowStarted = false;
 		flowEnded = false;
 
@@ -249,7 +247,7 @@ public class GridControl : MonoBehaviour
 		int startGridIdx = CoordsToIdx(startGridIdx3.x, startGridIdx3.y, startGridIdx3.z);
 		int endGridIdx = CoordsToIdx(endGridIdx3.x, endGridIdx3.y, endGridIdx3.z);
 
-		if (!movable || startGridIdx == endGridIdx)
+		if (startGridIdx == endGridIdx)
 		{
 			return;
 		}
@@ -273,15 +271,12 @@ public class GridControl : MonoBehaviour
 				waypoints[j++] = path[i];
 			}
 
+			block.GetComponent<PlayerBlocksControl>().StartMoving();
 
-			movable = false;
-			//audio.loop = true;
-			//audio.Play();
-			//block.transform.position = waypoints[path.Count - 1];
 			AudioSource audio = block.GetComponent<AudioSource>();
 			block.transform.DOPath(waypoints, (path.Count - 1) * 0.18f).SetEase(Ease.InOutCubic)
 				.OnWaypointChange((int idx) => {if (idx != 0) {audio.Play();}})
-				.OnComplete(() => {movable = true;});
+				.OnComplete(() => {block.GetComponent<PlayerBlocksControl>().StopMoving();});
 		}
 		else
 		{
@@ -389,12 +384,7 @@ public class GridControl : MonoBehaviour
 
 		return -1;
 	}
-
-	public void CanMove()
-	{
-		movable = true;
-	}
-
+		
 	public IEnumerator DelayToMove(float delaySeconds)
 	{
 		yield return new WaitForSeconds(delaySeconds);

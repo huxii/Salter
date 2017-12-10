@@ -5,14 +5,16 @@ using DG.Tweening;
 
 public class PlayerBlocksControl : MonoBehaviour
 {
-	private List<GameObject> blocks;
+	public GameObject dragStoneParticle;
 	public int width;
 	public int length;
 	public int height;
+	public bool movable;
 	public Color hoverColor;
 	public Color DragColor;
-	public GameObject clickStoneParticle;
+	public GameObject haloPrefab;
 
+	List<GameObject> blocks;
 	GameObject gridManager;
 	AudioSource audio;
 
@@ -28,6 +30,8 @@ public class PlayerBlocksControl : MonoBehaviour
 		}
 		audio = GetComponent<AudioSource>();
 		gridManager = GameObject.Find("GridManager");
+
+		StopMoving();
 	}
 		
 	public void Hover()
@@ -58,15 +62,19 @@ public class PlayerBlocksControl : MonoBehaviour
 			new Quaternion()
 		);
 		*/
-		GameObject newParticle = Instantiate(
-			clickStoneParticle, 
-			transform
-		);
-		newParticle.transform.localPosition = new Vector3((width - 1) * 0.5f, 1.0f + height * 0.5f, (length - 1) * 0.5f);
+
+		GameObject halo = Instantiate(haloPrefab, transform);
+		halo.transform.localPosition = new Vector3((width - 1) * 0.5f, height * 0.5f, (length - 1) * 0.5f);
+		halo.GetComponent<HaloControl>().Hit(0.5f);
 	}
 
 	public void Drag(Vector3 mousePos, Vector3 worldPos, Vector3Int offset)
 	{
+		if (!movable)
+		{
+			return;
+		}
+
 		foreach (GameObject block in blocks)
 		{
 			block.GetComponent<PlayerSingleBlockBehavior>().TweenEmission(DragColor);
@@ -106,5 +114,17 @@ public class PlayerBlocksControl : MonoBehaviour
 		);
 		//Debug.Log(startGridIdx + hitGridIdx);
 		gridManager.GetComponent<GridControl>().MoveToGrid(gameObject, startGridIdx - offset, hitGridIdx - offset);
+	}
+
+	public void StartMoving()
+	{
+		movable = false;
+		dragStoneParticle.GetComponent<ParticleSystem>().Play();
+	}
+
+	public void StopMoving()
+	{
+		movable = true;
+		dragStoneParticle.GetComponent<ParticleSystem>().Stop();
 	}
 }
