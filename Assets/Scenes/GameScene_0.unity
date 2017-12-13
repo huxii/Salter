@@ -88,7 +88,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-  m_LightingDataAsset: {fileID: 112000536, guid: e4b969306a22dea4487e6341aad6da30,
+  m_LightingDataAsset: {fileID: 112000526, guid: 98150cab95dc3cd419af0f25238b9b21,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -2056,6 +2056,16 @@ Prefab:
       propertyPath: levelBtn.Array.data[1]
       value: 
       objectReference: {fileID: 1908743679}
+    - target: {fileID: 114804439718491358, guid: be77f7b655e844442a9451177fca2bb2,
+        type: 2}
+      propertyPath: pre
+      value: 
+      objectReference: {fileID: 1751125951619494, guid: e07d5021742f5fa419da74a84cf657a8,
+        type: 2}
+    - target: {fileID: 1170856284739488, guid: be77f7b655e844442a9451177fca2bb2, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be77f7b655e844442a9451177fca2bb2, type: 2}
   m_IsPrefabParent: 0
@@ -5377,7 +5387,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 4294967294
   m_IsActive: 1
 --- !u!23 &1314606873
 MeshRenderer:

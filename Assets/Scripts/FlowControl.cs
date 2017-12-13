@@ -77,7 +77,7 @@ public class FlowControl : MonoBehaviour
 			particle.transform.localPosition = new Vector3(0, 0.3f, 0);
 		}
 
-		flow.transform.localScale = new Vector3(0.0f, flow.transform.localScale.y, flow.transform.localScale.z);
+		flow.transform.localScale = new Vector3(0.01f, flow.transform.localScale.y, flow.transform.localScale.z);
 		flow.transform.DOScaleX(length, length / speed).SetEase(Ease.Linear).OnComplete(FlowComplete);
 	}
 
